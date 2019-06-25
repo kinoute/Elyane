@@ -1,4 +1,4 @@
-class Layer(object):
+class Layer:
 
     def __init__(self, input_size, output_size, activation):
         raise NotImplementedError

@@ -1,4 +1,4 @@
-class Loss(object):
+class Loss:
 
     def fct():
         raise NotImplementedError

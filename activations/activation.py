@@ -1,10 +1,9 @@
-''' Abstract Class / Interface of our Activation Classes '''
-class Activation(object):
+''' Abstract Class / Interface of our Activation Functions '''
+class Activation:
 
     def activ(self, F):
         raise NotImplementedError
 
-    # computes dE/dX for a given dE/dY (and update parameters if any)
     def deriv(self, F):
         raise NotImplementedError
 

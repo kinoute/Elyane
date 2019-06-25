@@ -1,7 +1,7 @@
 from .activation import Activation
 import numpy as np
 
-class tanH(Activation):
+class TanH(Activation):
 
     def activ(self, F):
         return np.tanh(F)
