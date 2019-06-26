@@ -5,7 +5,6 @@ class NeuralNetwork:
     def __init__(self):
         self.layers = []
         self.loss = None
-        self.parameters = None
 
     # add layer to network
     def add(self, layer):
