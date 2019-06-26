@@ -33,13 +33,11 @@ class NeuralNetwork:
 
             print("cost after", i, "iterations:", self.cost(self.loss.fct(Y, A), train_size))
 
-            deriv_activation = self.loss.deriv(Y,A)
+            deriv_activation = self.loss.deriv(Y, A)
 
             # Backward propagation
             for i, layer in enumerate(reversed(self.layers)):
                 deriv_activation = layer.backward_pass(deriv_activation, learning_rate, train_size)
-
-            self.parameters = A
 
 
     def predict(self, X, Y):
@@ -50,11 +48,16 @@ class NeuralNetwork:
         for layer in self.layers:
             A = layer.forward_pass(A)
 
-        # set our results to 1 if prob is > to 0.5, otherwise 0
-        predictions = np.where(A > 0.5, 1., 0.)
+        predictions = []
+        # set our   results to 1 if prob is > to 0.5, otherwise 0
+        for i in range(A.shape[1]):
 
+            print("i", i, A[0, i])
+            #predictions = np.where(A[:i] > 0.5, 1., 0.)
+
+        return None
         # show our accuracy as a nice percentage
-        accuracy = float((np.dot(Y, predictions.T) + np.dot(1 - Y, 1 - predictions.T)))
+        accuracy = float((np.dot(Y, A.T) + np.dot(1 - Y, 1 - A.T)))
         accuracy /= float(Y.size)
         accuracy *= 100
 

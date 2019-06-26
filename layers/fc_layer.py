@@ -21,7 +21,7 @@ class FCLayer(Layer):
 
         # derivatives
         self.dWeights = np.dot(deriv_pre_activation, self.input.T) / train_size
-        self.dBias = np.sum(deriv_pre_activation ,axis = 1, keepdims = True) / train_size
+        self.dBias = np.sum(deriv_pre_activation, axis = 1, keepdims = True) / train_size
 
         # update parameters
         self.weights -= learning_rate * self.dWeights

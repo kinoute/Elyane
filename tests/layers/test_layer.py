@@ -11,6 +11,3 @@ class LayerTest(unittest.TestCase):
 
     def testBackward(self):
         self.assertRaises(NotImplementedError, Layer.backward_pass, self, 12, 1)
-
-
-
