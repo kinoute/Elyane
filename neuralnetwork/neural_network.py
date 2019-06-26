@@ -5,6 +5,7 @@ class NeuralNetwork:
     def __init__(self):
         self.layers = []
         self.loss = None
+        self.parameters = None
 
     # add layer to network
     def add(self, layer):
@@ -23,6 +24,7 @@ class NeuralNetwork:
         train_size = X.shape[1]
 
         for i in range(epochs):
+
             # At first, A0 equals to the training set
             A = X
 
@@ -30,15 +32,34 @@ class NeuralNetwork:
             for layer in self.layers:
                 A = layer.forward_pass(A)
 
-            print("cost after", i, "iterations:", self.cost(self.loss.fct(Y,A), train_size))
+            print("cost after", i, "iterations:", self.cost(self.loss.fct(Y, A), train_size))
 
-            output_error = A - Y
+            deriv_activation = self.loss.deriv(Y,A)
 
             # Backward propagation
             for i, layer in enumerate(reversed(self.layers)):
-                output_error = layer.backward_pass(output_error, learning_rate, train_size)
+                deriv_activation = layer.backward_pass(deriv_activation, learning_rate, train_size)
+
+            self.parameters = A
 
 
+    def predict(self, X, Y):
+
+        # first activation is our training set
+        A = X
+
+        for layer in self.layers:
+            A = layer.forward_pass(A)
+
+        # set our results to 1 if prob is > to 0.5, otherwise 0
+        predictions = np.where(A > 0.5, 1., 0.)
+
+        # show our accuracy as a nice percentage
+        accuracy = float((np.dot(Y, predictions.T) + np.dot(1 - Y, 1 - predictions.T)))
+        accuracy /= float(Y.size)
+        accuracy *= 100
+
+        return f"Accuracy on the Training Set: {accuracy}%"
 
 
 

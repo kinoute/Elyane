@@ -15,15 +15,16 @@ class FCLayer(Layer):
 
         return self.activation_output
 
-    def backward_pass(self, output_error, learning_rate, train_size):
-        dZ = self.activation.deriv(self.activation_output) * output_error
-        output_error = np.dot(self.weights.T, dZ)
+    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        deriv_pre_activation = self.activation.deriv(self.activation_output) * deriv_activation
+        deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
-        self.dWeights = np.dot(dZ, self.input.T) / train_size
-        self.dBias = np.sum(dZ ,axis = 1, keepdims = True) / train_size
+        # derivatives
+        self.dWeights = np.dot(deriv_pre_activation, self.input.T) / train_size
+        self.dBias = np.sum(deriv_pre_activation ,axis = 1, keepdims = True) / train_size
 
         # update parameters
         self.weights -= learning_rate * self.dWeights
         self.bias -= learning_rate * self.dBias
 
-        return output_error
+        return deriv_activation

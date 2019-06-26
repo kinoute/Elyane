@@ -3,6 +3,8 @@ from layers.fc_layer import FCLayer
 from activations.tanh import TanH
 from activations.sigmoid import Sigmoid
 from losses.cross_entropy import CrossEntropy
+from losses.mse import MSE
+from losses.mae import MAE
 import numpy as np
 
 # Create our XOR dataset
@@ -24,8 +26,8 @@ net.add(FCLayer(3, 1, activation=Sigmoid()))
 
 # train
 net.use(loss=CrossEntropy())
-net.train(X, Y, epochs=2000, learning_rate=1.2)
+net.train(X, Y, epochs=1000, learning_rate=1.2)
 
 # test
-#out = net.predict(x_train)
-#print(out)
+result = net.predict(X, Y)
+print(result)

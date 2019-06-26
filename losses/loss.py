@@ -1,8 +1,8 @@
 class Loss:
 
-    def fct():
+    def fct(self):
         raise NotImplementedError
 
-    def deriv():
+    def deriv(self):
         raise NotImplementedError
 
