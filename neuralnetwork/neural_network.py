@@ -39,35 +39,15 @@ class NeuralNetwork:
             for i, layer in enumerate(reversed(self.layers)):
                 deriv_activation = layer.backward_pass(deriv_activation, learning_rate, train_size)
 
-
-    def predict(self, X, Y):
+    def predict(self, X):
 
         # first activation is our training set
         A = X
 
         # Number of classes to predict
-        num_classes = Y.shape[0]
-
+        #
         for layer in self.layers:
             A = layer.forward_pass(A)
 
-        predictions = []
-        print(A)
-
-        for i in range(num_classes):
-            print("i", i, A[i, 0])
-            print("Y", Y[i, 0])
-
-
-
-
-        return None
-        # show our accuracy as a nice percentage
-        accuracy = float((np.dot(Y, A.T) + np.dot(1 - Y, 1 - A.T)))
-        accuracy /= float(Y.size)
-        accuracy *= 100
-
-        return f"Accuracy on the Training Set: {accuracy}%"
-
-
+        return A
 
