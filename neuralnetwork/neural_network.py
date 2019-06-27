@@ -50,4 +50,3 @@ class NeuralNetwork:
             A = layer.forward_pass(A)
 
         return A
-

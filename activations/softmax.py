@@ -4,8 +4,9 @@ import numpy as np
 class Softmax(Activation):
 
     def activ(self, F):
+        return np.exp(F)/np.sum(np.exp(F), axis=0)
         maxVal = np.max(F, axis = 0, keepdims = True)  # To normalize the values for numerical stability
-        return np.exp(F) / np.sum(np.exp(F), axis = 0)
+        return np.exp(F - maxVal) / np.sum(np.exp(F - maxVal), axis = 0, keepdims = True)
 
     def deriv(self, F):
         return F * (1 - F)

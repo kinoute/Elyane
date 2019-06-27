@@ -4,83 +4,54 @@ from layers.softmax_layer import SoftmaxLayer
 from activations.tanh import TanH
 from activations.relu import Relu
 from activations.softmax import Softmax
+from activations.sigmoid import Sigmoid
 from losses.cross_entropy import CrossEntropy
 from losses.multi_class_cross_entropy import MultiClassCrossEntropy
 from losses.mse import MSE
 import numpy as np
 import pandas as pd
 
+from keras.datasets import mnist
+from keras.utils import np_utils
 
-def one_hot_encoding(y, n_examples, n_classes):
-    """ One hot Encode les labels y.
-    Arguments:
-        y : dataset de label
-        n_examples : nombre d'exemples dans y
-        n_classes  : nombre de classes
-    """
-    one_hot = np.eye(n_classes)
-    Y_new = one_hot[y.astype('int32')]
-    return Y_new.T.reshape(n_classes, n_examples)
+# load MNIST from server
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-mnist = pd.read_csv('datas/mnist/mnist_train.csv')[:1500]
-
-print("shape at first", mnist.shape)
-
-train_label = mnist["label"]
-mnist.drop(['label'], inplace = True, axis = 1)
-mnist /= 255
-mnist = mnist.values.reshape(784, 1500)
-
-print("shape after drop", mnist.shape)
-
-print("shape after, reshape -1", mnist.shape)
-
-train_label = train_label.values.flatten()
-classes = np.unique(train_label)
-
-X = mnist
-Y = one_hot_encoding(train_label, mnist.shape[1], len(classes))
-
-print("X shape after T", X.shape)
-print("Y shape after T", Y.shape)
+# training data : 60000 samples
+# reshape and normalize input data
+X = x_train.reshape(x_train.shape[0], 28*28).T
+X = X.astype('float32')
+X /= 255
+# encode output which is a number in range [0,9] into a vector of size 10
+# e.g. number 3 will become [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+Y = np_utils.to_categorical(y_train)
 
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(X.shape[0], 100, activation=TanH()))
+net.add(FCLayer(28*28, 100, activation=TanH()))
 net.add(FCLayer(100, 50, activation=TanH()))
-net.add(FCLayer(50, 20, activation=TanH()))
-net.add(SoftmaxLayer(20, Y.shape[0], activation=Softmax()))
+net.add(FCLayer(50, 10, activation=Softmax()))
 
 # train
 net.use(loss=MultiClassCrossEntropy())
-net.train(X, Y, epochs=1000, learning_rate=1.2)
+net.train(X[:, :2000], Y[0:2000].T, epochs=1000, learning_rate=1.2)
 
-# test
+#print(net.get_acc(X, Y))
 
-mnist_test = pd.read_csv('datas/mnist/mnist_test.csv')[:1500]
+# same for test data : 10000 samples
+x_test = x_test.reshape(x_test.shape[0], 28*28)
+x_test = x_test.astype('float32')
+x_test /= 255
+y_test = np_utils.to_categorical(y_test)
 
-test_label = mnist_test["label"]
-mnist_test.drop(['label'], inplace = True, axis = 1)
-mnist_test /= 255
-mnist_test = mnist_test.values.reshape(784, 1500)
+out = net.predict(x_test[0:10].T)
+print("\n")
+print("predicted values : ")
+print(out, end="\n")
+print(np.argmax(out, axis=0))
+print("true values : ")
+print(y_test[0:10])
+print("true labels: ")
+print(np.argmax(y_test[0:10],axis=1))
 
-print("shape after drop", mnist_test.shape)
-
-print("shape after, reshape -1", mnist_test.shape)
-
-test_label = test_label.values.flatten()
-test_classes = np.unique(test_label)
-
-X_test = mnist_test
-Y_test = one_hot_encoding(test_label, mnist_test.shape[1], len(test_classes))
-
-print("X_test shape before prediction", X_test.shape)
-print("Y_test shape before prediction", Y_test.shape)
-
-result = net.predict(X_test[:, :3])
-
-print("result", result)
-print(np.argmax(result, axis = 0))
-print(Y_test[:, :3])
-print(test_label[: , :3])
