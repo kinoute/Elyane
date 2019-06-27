@@ -80,7 +80,7 @@ print("Y_test shape before prediction", Y_test.shape)
 
 result = net.predict(X_test[:, :3])
 
-print("ok", result)
+print("result", result)
 print(np.argmax(result, axis = 0))
 print(Y_test[:, :3])
 print(test_label[: , :3])
