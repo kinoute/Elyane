@@ -45,15 +45,21 @@ class NeuralNetwork:
         # first activation is our training set
         A = X
 
+        # Number of classes to predict
+        num_classes = Y.shape[0]
+
         for layer in self.layers:
             A = layer.forward_pass(A)
 
         predictions = []
-        # set our   results to 1 if prob is > to 0.5, otherwise 0
-        for i in range(A.shape[1]):
+        print(A)
 
-            print("i", i, A[0, i])
-            #predictions = np.where(A[:i] > 0.5, 1., 0.)
+        for i in range(num_classes):
+            print("i", i, A[i, 0])
+            print("Y", Y[i, 0])
+
+
+
 
         return None
         # show our accuracy as a nice percentage

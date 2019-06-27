@@ -1,9 +1,11 @@
 from neuralnetwork.neural_network import NeuralNetwork
 from layers.fc_layer import FCLayer
+from layers.softmax_layer import SoftmaxLayer
 from activations.tanh import TanH
 from activations.sigmoid import Sigmoid
 from activations.softmax import Softmax
 from losses.cross_entropy import CrossEntropy
+from losses.multi_class_cross_entropy import MultiClassCrossEntropy
 from losses.mse import MSE
 from losses.mae import MAE
 import numpy as np
@@ -42,10 +44,10 @@ print(Y.shape)
 # Create our NN structure
 net = NeuralNetwork()
 net.add(FCLayer(2, 3, activation=TanH()))
-net.add(FCLayer(3, 2, activation=Softmax()))
+net.add(SoftmaxLayer(3, 2, activation=Softmax()))
 
 # train
-net.use(loss=CrossEntropy())
+net.use(loss=MultiClassCrossEntropy())
 net.train(X, Y, epochs=1000, learning_rate=1.2)
 
 # test
