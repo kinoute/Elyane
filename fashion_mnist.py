@@ -38,11 +38,11 @@ net.add(SoftmaxLayer(25, num_classes, activation=Softmax()))
 # train
 net.use(loss=MultiClassCrossEntropy())
 
-train_results = net.train(x_train[:, :2000], y_train[:, :2000], epochs=1000, learning_rate=0.4, batch_size=128)
+train_results = net.train(x_train[:, :20000], y_train[:, :20000], epochs=1000, learning_rate=0.4, batch_size=128)
 
 # check training accuracy
 train_results = np.argmax(train_results, axis = 0)
-train_labels = np.argmax(y_train[:, :2000], axis = 0)
+train_labels = np.argmax(y_train[:, :20000], axis = 0)
 print("Accuracy on training set:", np.mean(train_results == train_labels) * 100, "%")
 
 # Check our model on the test set
