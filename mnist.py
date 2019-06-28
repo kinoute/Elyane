@@ -31,14 +31,14 @@ Y = np_utils.to_categorical(y_train)
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(28*28, 100, activation=TanH()))
-net.add(FCLayer(100, 50, activation=TanH()))
-net.add(FCLayer(50, 25, activation=TanH()))
+net.add(FCLayer(28*28, 100, activation=Relu()))
+net.add(FCLayer(100, 50, activation=Relu()))
+net.add(FCLayer(50, 25, activation=Relu()))
 net.add(SoftmaxLayer(25, 10, activation=Softmax()))
 
 # train
 net.use(loss=MultiClassCrossEntropy())
-train_results = net.train(X[:,:20000], Y[0:20000].T, epochs=500, learning_rate=1.2)
+train_results = net.train(X[:,:20000], Y[0:20000].T, epochs=1500, learning_rate=0.1)
 print(train_results.shape)
 print(Y[0:20000].T.shape)
 train_results = np.argmax(train_results, axis = 1)
