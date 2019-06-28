@@ -39,6 +39,8 @@ class NeuralNetwork:
             for i, layer in enumerate(reversed(self.layers)):
                 deriv_activation = layer.backward_pass(deriv_activation, learning_rate, train_size)
 
+        return A
+
     def predict(self, X):
 
         # first activation is our training set
