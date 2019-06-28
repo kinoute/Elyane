@@ -1,22 +1,18 @@
 from neuralnetwork.neural_network import NeuralNetwork
+
 from layers.fc_layer import FCLayer
+
 from activations.tanh import TanH
 from activations.sigmoid import Sigmoid
-from activations.softmax import Softmax
+
 from losses.cross_entropy import CrossEntropy
+
+from utils.create_xor_dataset import create_xor_dataset
+
 import numpy as np
 
-# Create our XOR dataset
-X = np.random.randint(2, size = (1000, 2))
-
-mask1 = X[:, 0] > 0.5
-mask2 = X[:, 1] > 0.5
-
-Y = np.logical_xor(mask1, mask2)
-Y = Y.reshape(1000, 1)
-
-X = X.T
-Y = Y.T
+# get our XOR dataset
+X, Y = create_xor_dataset(5000)
 
 # Create our NN structure
 net = NeuralNetwork()
@@ -25,21 +21,16 @@ net.add(FCLayer(5, 2, activation=Sigmoid()))
 
 # train
 net.use(loss=CrossEntropy())
-net.train(X, Y, epochs=1000, learning_rate=1.2)
+train_results = net.train(X, Y, epochs=1000, learning_rate=1.2)
+
+# accuracy
+train_results = np.where(train_results > 0.5, 1., 0.)[0]
+print("Accuracy on training set:", np.mean(train_results == Y) * 100, "%")
 
 # create our testing dataset
-X_test = np.random.randint(2, size = (100, 2))
-
-mask1 = X_test[:, 0] > 0.5
-mask2 = X_test[:, 1] > 0.5
-
-Y_test = np.logical_xor(mask1, mask2)
-Y_test = Y_test.reshape(100, 1)
-
-X_test = X_test.T
-Y_test = Y_test.T
+X_test, Y_test = create_xor_dataset(5000)
 
 # testing!
-result = net.predict(X_test)
-result = np.where(result > 0.5, 1., 0.)[0]
-print("Accuracy:", np.mean(result == Y_test), "out of 1")
+test_results = net.predict(X_test)
+test_results = np.where(test_results > 0.5, 1., 0.)[0]
+print("Accuracy on testing set:", np.mean(test_results == Y_test) * 100, "%")

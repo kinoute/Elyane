@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 class NeuralNetwork:
 
     def __init__(self):
@@ -17,10 +17,11 @@ class NeuralNetwork:
     def cost(self, loss, size):
         return (np.sum(loss) / size)
 
-    def train(self, X, Y, epochs, learning_rate):
+    def train(self, X, Y, epochs, learning_rate, batch_size = 128):
 
         # Number of samples in our training set
         train_size = X.shape[1]
+        batch_size = batch_size if batch_size else train_size
 
         for i in range(epochs):
 
@@ -36,7 +37,7 @@ class NeuralNetwork:
             deriv_activation = self.loss.deriv(Y, A)
 
             # Backward propagation
-            for i, layer in enumerate(reversed(self.layers)):
+            for layer in reversed(self.layers):
                 deriv_activation = layer.backward_pass(deriv_activation, learning_rate, train_size)
 
         return A
