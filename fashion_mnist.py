@@ -21,11 +21,11 @@ import numpy as np
 # reshape and normalize input data
 x_train = normalize_images(x_train)
 
-# number 3 will become [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-y_train = one_hot(y_train)
+# One hot encoding number 3 will become [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+y_train_enc = one_hot(y_train)
 
 # number of classes / pixels per image
-num_classes = y_train.shape[0]
+num_classes = y_train_enc.shape[0]
 num_pixels = x_train.shape[0]
 
 # Create our NN structure
@@ -38,12 +38,12 @@ net.add(SoftmaxLayer(25, num_classes, activation=Softmax()))
 # train
 net.use(loss=MultiClassCrossEntropy())
 
-train_results = net.train(x_train[:, :20000], y_train[:, :20000], epochs=1000, learning_rate=0.4, batch_size=128)
+net.train(x_train, y_train_enc, epochs = 50, learning_rate = 0.75, batch_size = 256)
 
 # check training accuracy
+train_results = net.predict(x_train)
 train_results = np.argmax(train_results, axis = 0)
-train_labels = np.argmax(y_train[:, :20000], axis = 0)
-print("Accuracy on training set:", np.mean(train_results == train_labels) * 100, "%")
+print("Accuracy on training set:", np.mean(train_results == y_train) * 100, "%")
 
 # Check our model on the test set
 x_test = normalize_images(x_test)
