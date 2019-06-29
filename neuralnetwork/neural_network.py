@@ -56,9 +56,9 @@ class NeuralNetwork:
 
 
     def get_mini_batch(self, X, Y, pos, batch_size):
-        batch_x = X[:, pos : pos + batch_size]
-        batch_y = Y[:, pos : pos + batch_size]
-        return batch_x, batch_y
+        batch_X = X[:, pos : pos + batch_size]
+        batch_Y = Y[:, pos : pos + batch_size]
+        return batch_X, batch_Y
 
     def predict(self, X):
 
