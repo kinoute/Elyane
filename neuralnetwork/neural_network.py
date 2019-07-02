@@ -1,6 +1,7 @@
-import numpy as np
-import math
 import random
+import numpy as np
+
+
 class NeuralNetwork:
 
     def __init__(self):
@@ -18,7 +19,7 @@ class NeuralNetwork:
     def cost(self, loss, size):
         return (np.sum(loss) / size)
 
-    def train(self, X, Y, epochs, learning_rate, batch_size = 128):
+    def train(self, X, Y, epochs, learning_rate, batch_size=128):
 
         # Number of samples in our training set
         train_size = X.shape[1]
@@ -34,7 +35,8 @@ class NeuralNetwork:
                 tt += 1
 
                 # get the (next) mini_batch
-                batch_A, batch_Y = self.get_mini_batch(shuffled_X, shuffled_Y, b, batch_size)
+                batch_A, batch_Y = self.get_mini_batch(
+                    shuffled_X, shuffled_Y, b, batch_size)
 
                 # Forward Propagation
                 for layer in self.layers:
@@ -44,10 +46,11 @@ class NeuralNetwork:
 
                 # Backward propagation
                 for layer in reversed(self.layers):
-                    deriv_activation = layer.backward_pass(deriv_activation, learning_rate, train_size, tt)
+                    deriv_activation = layer.backward_pass(
+                        deriv_activation, learning_rate, train_size, tt)
 
-            print("cost after", i, "iterations:", self.cost(self.loss.fct(batch_Y, batch_A), train_size))
-
+            print("cost after", i, "iterations:", self.cost(
+                self.loss.fct(batch_Y, batch_A), train_size))
 
     def shuffle_dataset(self, X, Y, train_size):
         permutation = list(np.random.permutation(train_size))
@@ -55,10 +58,9 @@ class NeuralNetwork:
         shuffled_Y = Y[:, permutation]
         return shuffled_X, shuffled_Y
 
-
     def get_mini_batch(self, X, Y, pos, batch_size):
-        batch_X = X[:, pos : pos + batch_size]
-        batch_Y = Y[:, pos : pos + batch_size]
+        batch_X = X[:, pos: pos + batch_size]
+        batch_Y = Y[:, pos: pos + batch_size]
         return batch_X, batch_Y
 
     def predict(self, X):

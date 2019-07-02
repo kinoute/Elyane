@@ -1,6 +1,7 @@
 import numpy as np
 from .loss import Loss
 
+
 class MSE(Loss):
 
     def fct(self, Y, A):

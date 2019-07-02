@@ -8,6 +8,7 @@ from activations.relu import Relu
 from activations.softmax import Softmax
 
 from optimization.adam import Adam
+from optimization.amsgrad import AmsGrad
 from optimization.rmsprop import RMSprop
 from optimization.momentum import Momentum
 from optimization.no_optim import NoOptim
@@ -36,25 +37,25 @@ num_pixels = x_train.shape[0]
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(num_pixels, 100, activation=TanH(), optim = Adam((num_pixels, 100))))
-net.add(FCLayer(100, 50, activation=TanH(), optim = Adam((100, 50))))
-net.add(FCLayer(50, 25, activation=TanH(), optim = Adam((50, 25))))
-net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optim = Adam((25, num_classes))))
+net.add(FCLayer(num_pixels, 100, activation=TanH(), optim=AmsGrad()))
+net.add(FCLayer(100, 50, activation=TanH(), optim=AmsGrad()))
+net.add(FCLayer(50, 25, activation=TanH(), optim=AmsGrad()))
+net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optim=AmsGrad()))
 
 # train
 net.use(loss=MultiClassCrossEntropy())
-net.train(x_train, y_train_enc, epochs = 50, learning_rate = 0.001, batch_size = 256)
+net.train(x_train, y_train_enc, epochs=50, learning_rate=0.001, batch_size=256)
 
 # check training accuracy
 train_results = net.predict(x_train)
-train_results = np.argmax(train_results, axis = 0)
-print("Accuracy on training set:", np.mean(train_results == y_train) * 100, "%")
+train_results = np.argmax(train_results, axis=0)
+print("Accuracy on training set:", np.mean(
+    train_results == y_train) * 100, "%")
 
 # Check our model on the test set
 x_test = normalize_images(x_test)
 
 test_results = net.predict(x_test)
-test_results = np.argmax(test_results, axis = 0)
+test_results = np.argmax(test_results, axis=0)
 
 print("Accuracy on testing set:", np.mean(test_results == y_test) * 100, "%")
-
