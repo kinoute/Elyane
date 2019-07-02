@@ -22,14 +22,16 @@ class NeuralNetwork:
 
         # Number of samples in our training set
         train_size = X.shape[1]
-
+        tt = 0
         for i in range(1, epochs):
 
             # shuffle the dataset on each iteration
             shuffled_X, shuffled_Y = self.shuffle_dataset(X, Y, train_size)
 
             # train each mini_batch
-            for b in range(0, train_size, batch_size):
+            for t, b in enumerate(range(0, train_size, batch_size)):
+
+                tt += 1
 
                 # get the (next) mini_batch
                 batch_A, batch_Y = self.get_mini_batch(shuffled_X, shuffled_Y, b, batch_size)
@@ -42,8 +44,7 @@ class NeuralNetwork:
 
                 # Backward propagation
                 for layer in reversed(self.layers):
-                    deriv_activation = layer.backward_pass(deriv_activation, learning_rate, train_size)
-
+                    deriv_activation = layer.backward_pass(deriv_activation, learning_rate, train_size, tt)
 
             print("cost after", i, "iterations:", self.cost(self.loss.fct(batch_Y, batch_A), train_size))
 

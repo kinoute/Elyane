@@ -8,6 +8,11 @@ from activations.softmax import Softmax
 
 from losses.multi_class_cross_entropy import MultiClassCrossEntropy
 
+from optimization.adam import Adam
+from optimization.rmsprop import RMSprop
+from optimization.momentum import Momentum
+from optimization.no_optim import NoOptim
+
 from utils.mnist_reader import load_mnist
 from utils.one_hot_encoding import one_hot
 from utils.normalize_images import normalize_images
@@ -30,15 +35,15 @@ num_pixels = x_train.shape[0]
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(num_pixels, 100, activation=TanH()))
-net.add(FCLayer(100, 50, activation=TanH()))
-net.add(FCLayer(50, 25, activation=TanH()))
-net.add(SoftmaxLayer(25, num_classes, activation=Softmax()))
+net.add(FCLayer(num_pixels, 100, activation=TanH(), optim = Adam()))
+net.add(FCLayer(100, 50, activation=TanH(), optim = Adam()))
+net.add(FCLayer(50, 25, activation=TanH(), optim = Adam()))
+net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optim = Adam()))
 
 # train
 net.use(loss=MultiClassCrossEntropy())
 
-net.train(x_train, y_train_enc, epochs = 50, learning_rate = 0.75, batch_size = 256)
+net.train(x_train, y_train_enc, epochs = 50, learning_rate = 0.0001, batch_size = 256)
 
 # check training accuracy
 train_results = net.predict(x_train)

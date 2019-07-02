@@ -5,6 +5,11 @@ from layers.fc_layer import FCLayer
 from activations.tanh import TanH
 from activations.sigmoid import Sigmoid
 
+from optimization.adam import Adam
+from optimization.rmsprop import RMSprop
+from optimization.momentum import Momentum
+from optimization.no_optim import NoOptim
+
 from losses.cross_entropy import CrossEntropy
 
 from utils.create_xor_dataset import create_xor_dataset
@@ -16,12 +21,12 @@ X, Y = create_xor_dataset(5000)
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(2, 5, activation=TanH()))
-net.add(FCLayer(5, 2, activation=Sigmoid()))
+net.add(FCLayer(2, 5, activation=TanH(), optim = Adam()))
+net.add(FCLayer(5, 2, activation=Sigmoid(), optim = Adam()))
 
 # train
 net.use(loss=CrossEntropy())
-net.train(X, Y, epochs = 50, learning_rate = 1.2, batch_size = 256)
+net.train(X, Y, epochs = 50, learning_rate = 0.01, batch_size = 256)
 
 # training accuracy
 train_results = net.predict(X)

@@ -3,10 +3,11 @@ import numpy as np
 
 class FCLayer(Layer):
 
-    def __init__(self, input_size, output_size, activation):
+    def __init__(self, input_size, output_size, activation, optim):
         self.activation = activation
         self.weights = np.random.randn(output_size, input_size) * self.activation.heuristic(input_size)
         self.bias = np.ones((output_size, 1))
+        self.optim = optim
 
     def forward_pass(self, input_data):
         self.input = input_data
@@ -15,7 +16,7 @@ class FCLayer(Layer):
 
         return self.activation_output
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+    def backward_pass(self, deriv_activation, learning_rate, train_size, t):
         deriv_pre_activation = self.activation.deriv(self.activation_output) * deriv_activation
         deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
@@ -24,7 +25,9 @@ class FCLayer(Layer):
         self.dBias = np.sum(deriv_pre_activation, axis = 1, keepdims = True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * self.dWeights
-        self.bias -= learning_rate * self.dBias
+        self.weights -= learning_rate * self.optim.for_dw(self.dWeights, t)
+        self.bias -= learning_rate * self.optim.for_db(self.dBias, t)
 
         return deriv_activation
+
+
