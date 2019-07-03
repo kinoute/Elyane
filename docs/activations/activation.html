@@ -30,11 +30,11 @@ class Activation:
 
     &#34;&#34;&#34; This class is a interface that defines what the activation functions classes should contain. &#34;&#34;&#34;
 
-    def activ(self, F):
+    def activ(self, data):
         &#34;&#34;&#34; The activation function formula.
 
         Args:
-            F (array): Linear combinaison, most like W.X + b.
+            data (array): Linear combinaison, most like W.X + b.
 
         Raises:
             NotImplementedError: In case the function has not been implemented.
@@ -42,11 +42,11 @@ class Activation:
 
         raise NotImplementedError
 
-    def deriv(self, F):
+    def deriv(self, data):
         &#34;&#34;&#34; The derivative of the activation function.
 
         Args:
-            F (array): The derivative of the activation function according to the last activation output.
+            data (array): The derivative of the activation function according to the last activation output.
 
         Raises:
             NotImplementedError: In case the function has not been implemented.
@@ -54,11 +54,11 @@ class Activation:
 
         raise NotImplementedError
 
-    def heuristic(self, F):
+    def heuristic(self, data):
         &#34;&#34;&#34; The heuristic formula to initialize our weights better depending of the activation function.
 
         Args:
-            F (array): The heuristic formula.
+            data (array): The heuristic formula.
 
         Raises:
             NotImplementedError: In case the function has not been implemented.
@@ -88,11 +88,11 @@ class Activation:
 
     &#34;&#34;&#34; This class is a interface that defines what the activation functions classes should contain. &#34;&#34;&#34;
 
-    def activ(self, F):
+    def activ(self, data):
         &#34;&#34;&#34; The activation function formula.
 
         Args:
-            F (array): Linear combinaison, most like W.X + b.
+            data (array): Linear combinaison, most like W.X + b.
 
         Raises:
             NotImplementedError: In case the function has not been implemented.
@@ -100,11 +100,11 @@ class Activation:
 
         raise NotImplementedError
 
-    def deriv(self, F):
+    def deriv(self, data):
         &#34;&#34;&#34; The derivative of the activation function.
 
         Args:
-            F (array): The derivative of the activation function according to the last activation output.
+            data (array): The derivative of the activation function according to the last activation output.
 
         Raises:
             NotImplementedError: In case the function has not been implemented.
@@ -112,11 +112,11 @@ class Activation:
 
         raise NotImplementedError
 
-    def heuristic(self, F):
+    def heuristic(self, data):
         &#34;&#34;&#34; The heuristic formula to initialize our weights better depending of the activation function.
 
         Args:
-            F (array): The heuristic formula.
+            data (array): The heuristic formula.
 
         Raises:
             NotImplementedError: In case the function has not been implemented.
@@ -135,13 +135,13 @@ class Activation:
 <h3>Methods</h3>
 <dl>
 <dt id="Elyane.activations.activation.Activation.activ"><code class="name flex">
-<span>def <span class="ident">activ</span></span>(<span>self, F)</span>
+<span>def <span class="ident">activ</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The activation function formula.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>F</code></strong> :&ensp;<code>array</code></dt>
+<dt><strong><code>data</code></strong> :&ensp;<code>array</code></dt>
 <dd>Linear combinaison, most like W.X + b.</dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -151,11 +151,11 @@ class Activation:
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def activ(self, F):
+<pre><code class="python">def activ(self, data):
     &#34;&#34;&#34; The activation function formula.
 
     Args:
-        F (array): Linear combinaison, most like W.X + b.
+        data (array): Linear combinaison, most like W.X + b.
 
     Raises:
         NotImplementedError: In case the function has not been implemented.
@@ -165,13 +165,13 @@ class Activation:
 </details>
 </dd>
 <dt id="Elyane.activations.activation.Activation.deriv"><code class="name flex">
-<span>def <span class="ident">deriv</span></span>(<span>self, F)</span>
+<span>def <span class="ident">deriv</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The derivative of the activation function.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>F</code></strong> :&ensp;<code>array</code></dt>
+<dt><strong><code>data</code></strong> :&ensp;<code>array</code></dt>
 <dd>The derivative of the activation function according to the last activation output.</dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -181,11 +181,11 @@ class Activation:
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def deriv(self, F):
+<pre><code class="python">def deriv(self, data):
     &#34;&#34;&#34; The derivative of the activation function.
 
     Args:
-        F (array): The derivative of the activation function according to the last activation output.
+        data (array): The derivative of the activation function according to the last activation output.
 
     Raises:
         NotImplementedError: In case the function has not been implemented.
@@ -195,13 +195,13 @@ class Activation:
 </details>
 </dd>
 <dt id="Elyane.activations.activation.Activation.heuristic"><code class="name flex">
-<span>def <span class="ident">heuristic</span></span>(<span>self, F)</span>
+<span>def <span class="ident">heuristic</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The heuristic formula to initialize our weights better depending of the activation function.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>F</code></strong> :&ensp;<code>array</code></dt>
+<dt><strong><code>data</code></strong> :&ensp;<code>array</code></dt>
 <dd>The heuristic formula.</dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -211,11 +211,11 @@ class Activation:
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def heuristic(self, F):
+<pre><code class="python">def heuristic(self, data):
     &#34;&#34;&#34; The heuristic formula to initialize our weights better depending of the activation function.
 
     Args:
-        F (array): The heuristic formula.
+        data (array): The heuristic formula.
 
     Raises:
         NotImplementedError: In case the function has not been implemented.

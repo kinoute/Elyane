@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.2" />
 <title>Elyane.utils.normalize_images API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Normalize images before feeding the neural network." />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -20,11 +20,21 @@
 <h1 class="title">Module <code>Elyane.utils.normalize_images</code></h1>
 </header>
 <section id="section-intro">
+<p>Normalize images before feeding the neural network.</p>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">import numpy as np
+<pre><code class="python">&#34;&#34;&#34; Normalize images before feeding the neural network. &#34;&#34;&#34;
+
 
 def normalize_images(images):
+    &#34;&#34;&#34; Normalizes our images.
+
+    Args:
+        images (array): Images as array to get normalized.
+
+    Returns:
+        array: Normalized images.
+    &#34;&#34;&#34;
     images = images.reshape(images.shape[0], images.shape[1]).T
     images = images.astype(&#39;float32&#39;)
     images /= 255
@@ -42,10 +52,28 @@ def normalize_images(images):
 <span>def <span class="ident">normalize_images</span></span>(<span>images)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Normalizes our images.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>images</code></strong> :&ensp;<code>array</code></dt>
+<dd>Images as array to get normalized.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>array</code></strong></dt>
+<dd>Normalized images.</dd>
+</dl></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def normalize_images(images):
+    &#34;&#34;&#34; Normalizes our images.
+
+    Args:
+        images (array): Images as array to get normalized.
+
+    Returns:
+        array: Normalized images.
+    &#34;&#34;&#34;
     images = images.reshape(images.shape[0], images.shape[1]).T
     images = images.astype(&#39;float32&#39;)
     images /= 255

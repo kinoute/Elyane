@@ -32,41 +32,41 @@ class LeakyRelu(Activation):
 
     &#34;&#34;&#34; The Leaky Relu activation function Class. &#34;&#34;&#34;
 
-    def activ(self, F):
+    def activ(self, data):
         &#34;&#34;&#34; The activation function formula for the Leaky Relu.
 
         Args:
-            F (array): Linear combinaison, most likely W.X + b.
+            data (array): Linear combinaison, most likely W.X + b.
 
         Returns:
             array: Returns the result of the Leaky Relu activation function.
         &#34;&#34;&#34;
 
-        return np.where(F &gt; 0, F, F * 0.01)
+        return np.where(data &gt; 0, data, data * 0.01)
 
-    def deriv(self, F):
+    def deriv(self, data):
         &#34;&#34;&#34; The derivative of the Leaky Relu activation function.
 
         Args:
-            F (array): The derivative of the activation function according to the last activation output.
+            data (array): The derivative of the activation function according to the last activation output.
 
         Returns:
-            array: Returns the result of the derivative of the Leaky Relu according to F.
+            array: Returns the result of the derivative of the Leaky Relu according to data.
         &#34;&#34;&#34;
 
-        return np.clip(F &gt; 0, 0.01, 1.0)
+        return np.clip(data &gt; 0, 0.01, 1.0)
 
-    def heuristic(self, F):
+    def heuristic(self, data):
         &#34;&#34;&#34; The heuristic formula to initialize our weights better when using the Leaky Relu.
 
         Args:
-            F (float): The size of the layer(s).
+            data (float): The size of the layer(s).
 
         Returns:
             array: Returns the heuristic for leaky Relu to initialize layer&#39;s weights better.
         &#34;&#34;&#34;
 
-        return np.sqrt(2 / F)</code></pre>
+        return np.sqrt(2 / data)</code></pre>
 </details>
 </section>
 <section>
@@ -90,41 +90,41 @@ class LeakyRelu(Activation):
 
     &#34;&#34;&#34; The Leaky Relu activation function Class. &#34;&#34;&#34;
 
-    def activ(self, F):
+    def activ(self, data):
         &#34;&#34;&#34; The activation function formula for the Leaky Relu.
 
         Args:
-            F (array): Linear combinaison, most likely W.X + b.
+            data (array): Linear combinaison, most likely W.X + b.
 
         Returns:
             array: Returns the result of the Leaky Relu activation function.
         &#34;&#34;&#34;
 
-        return np.where(F &gt; 0, F, F * 0.01)
+        return np.where(data &gt; 0, data, data * 0.01)
 
-    def deriv(self, F):
+    def deriv(self, data):
         &#34;&#34;&#34; The derivative of the Leaky Relu activation function.
 
         Args:
-            F (array): The derivative of the activation function according to the last activation output.
+            data (array): The derivative of the activation function according to the last activation output.
 
         Returns:
-            array: Returns the result of the derivative of the Leaky Relu according to F.
+            array: Returns the result of the derivative of the Leaky Relu according to data.
         &#34;&#34;&#34;
 
-        return np.clip(F &gt; 0, 0.01, 1.0)
+        return np.clip(data &gt; 0, 0.01, 1.0)
 
-    def heuristic(self, F):
+    def heuristic(self, data):
         &#34;&#34;&#34; The heuristic formula to initialize our weights better when using the Leaky Relu.
 
         Args:
-            F (float): The size of the layer(s).
+            data (float): The size of the layer(s).
 
         Returns:
             array: Returns the heuristic for leaky Relu to initialize layer&#39;s weights better.
         &#34;&#34;&#34;
 
-        return np.sqrt(2 / F)</code></pre>
+        return np.sqrt(2 / data)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -133,13 +133,13 @@ class LeakyRelu(Activation):
 <h3>Methods</h3>
 <dl>
 <dt id="Elyane.activations.leaky_relu.LeakyRelu.activ"><code class="name flex">
-<span>def <span class="ident">activ</span></span>(<span>self, F)</span>
+<span>def <span class="ident">activ</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The activation function formula for the Leaky Relu.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>F</code></strong> :&ensp;<code>array</code></dt>
+<dt><strong><code>data</code></strong> :&ensp;<code>array</code></dt>
 <dd>Linear combinaison, most likely W.X + b.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -149,57 +149,57 @@ class LeakyRelu(Activation):
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def activ(self, F):
+<pre><code class="python">def activ(self, data):
     &#34;&#34;&#34; The activation function formula for the Leaky Relu.
 
     Args:
-        F (array): Linear combinaison, most likely W.X + b.
+        data (array): Linear combinaison, most likely W.X + b.
 
     Returns:
         array: Returns the result of the Leaky Relu activation function.
     &#34;&#34;&#34;
 
-    return np.where(F &gt; 0, F, F * 0.01)</code></pre>
+    return np.where(data &gt; 0, data, data * 0.01)</code></pre>
 </details>
 </dd>
 <dt id="Elyane.activations.leaky_relu.LeakyRelu.deriv"><code class="name flex">
-<span>def <span class="ident">deriv</span></span>(<span>self, F)</span>
+<span>def <span class="ident">deriv</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The derivative of the Leaky Relu activation function.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>F</code></strong> :&ensp;<code>array</code></dt>
+<dt><strong><code>data</code></strong> :&ensp;<code>array</code></dt>
 <dd>The derivative of the activation function according to the last activation output.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>array</code></strong></dt>
-<dd>Returns the result of the derivative of the Leaky Relu according to F.</dd>
+<dd>Returns the result of the derivative of the Leaky Relu according to data.</dd>
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def deriv(self, F):
+<pre><code class="python">def deriv(self, data):
     &#34;&#34;&#34; The derivative of the Leaky Relu activation function.
 
     Args:
-        F (array): The derivative of the activation function according to the last activation output.
+        data (array): The derivative of the activation function according to the last activation output.
 
     Returns:
-        array: Returns the result of the derivative of the Leaky Relu according to F.
+        array: Returns the result of the derivative of the Leaky Relu according to data.
     &#34;&#34;&#34;
 
-    return np.clip(F &gt; 0, 0.01, 1.0)</code></pre>
+    return np.clip(data &gt; 0, 0.01, 1.0)</code></pre>
 </details>
 </dd>
 <dt id="Elyane.activations.leaky_relu.LeakyRelu.heuristic"><code class="name flex">
-<span>def <span class="ident">heuristic</span></span>(<span>self, F)</span>
+<span>def <span class="ident">heuristic</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The heuristic formula to initialize our weights better when using the Leaky Relu.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>F</code></strong> :&ensp;<code>float</code></dt>
+<dt><strong><code>data</code></strong> :&ensp;<code>float</code></dt>
 <dd>The size of the layer(s).</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -209,17 +209,17 @@ class LeakyRelu(Activation):
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def heuristic(self, F):
+<pre><code class="python">def heuristic(self, data):
     &#34;&#34;&#34; The heuristic formula to initialize our weights better when using the Leaky Relu.
 
     Args:
-        F (float): The size of the layer(s).
+        data (float): The size of the layer(s).
 
     Returns:
         array: Returns the heuristic for leaky Relu to initialize layer&#39;s weights better.
     &#34;&#34;&#34;
 
-    return np.sqrt(2 / F)</code></pre>
+    return np.sqrt(2 / data)</code></pre>
 </details>
 </dd>
 </dl>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.2" />
 <title>Elyane.utils.mnist_reader API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Load the MNIST datasets" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -20,14 +20,27 @@
 <h1 class="title">Module <code>Elyane.utils.mnist_reader</code></h1>
 </header>
 <section id="section-intro">
+<p>Load the MNIST datasets</p>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def load_mnist(path, kind=&#39;train&#39;):
+<pre><code class="python">&#34;&#34;&#34; Load the MNIST datasets &#34;&#34;&#34;
+
+
+def load_mnist(path, kind=&#39;train&#39;):
+    &#34;&#34;&#34; Load the (fashion) mnist dataset for training or testing
+
+    Args:
+        path (string): Path to the folders containing the gzipped datasets.
+        kind (str, optional): The type of dataset we want (test or train).
+
+    Returns:
+        array: Returns two arrays, the images as array, and the images labels.
+    &#34;&#34;&#34;
+
     import os
     import gzip
     import numpy as np
 
-    &#34;&#34;&#34;Load MNIST data from `path`&#34;&#34;&#34;
     labels_path = os.path.join(path,
                                &#39;%s-labels-idx1-ubyte.gz&#39;
                                % kind)
@@ -57,15 +70,36 @@
 <span>def <span class="ident">load_mnist</span></span>(<span>path, kind='train')</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Load the (fashion) mnist dataset for training or testing</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>string</code></dt>
+<dd>Path to the folders containing the gzipped datasets.</dd>
+<dt><strong><code>kind</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>The type of dataset we want (test or train).</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>array</code></strong></dt>
+<dd>Returns two arrays, the images as array, and the images labels.</dd>
+</dl></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def load_mnist(path, kind=&#39;train&#39;):
+    &#34;&#34;&#34; Load the (fashion) mnist dataset for training or testing
+
+    Args:
+        path (string): Path to the folders containing the gzipped datasets.
+        kind (str, optional): The type of dataset we want (test or train).
+
+    Returns:
+        array: Returns two arrays, the images as array, and the images labels.
+    &#34;&#34;&#34;
+
     import os
     import gzip
     import numpy as np
 
-    &#34;&#34;&#34;Load MNIST data from `path`&#34;&#34;&#34;
     labels_path = os.path.join(path,
                                &#39;%s-labels-idx1-ubyte.gz&#39;
                                % kind)

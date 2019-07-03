@@ -1,9 +1,21 @@
+""" Load the MNIST datasets """
+
+
 def load_mnist(path, kind='train'):
+    """ Load the (fashion) mnist dataset for training or testing
+
+    Args:
+        path (string): Path to the folders containing the gzipped datasets.
+        kind (str, optional): The type of dataset we want (test or train).
+
+    Returns:
+        array: Returns two arrays, the images as array, and the images labels.
+    """
+
     import os
     import gzip
     import numpy as np
 
-    """Load MNIST data from `path`"""
     labels_path = os.path.join(path,
                                '%s-labels-idx1-ubyte.gz'
                                % kind)

@@ -1,13 +1,23 @@
+""" Create a XOR dataset """
 import numpy as np
 
+
 def create_xor_dataset(num):
+    """ Creates a XOR dataset with "num" examples in it.
 
-    X = np.random.randint(2, size = (num, 2))
+    Args:
+        num (int): The number of examples we want in the training set.
 
-    mask1 = X[:, 0] > 0.5
-    mask2 = X[:, 1] > 0.5
+    Returns:
+        array: Returns two arrays, one for the training set, one for the training labels.
+    """
 
-    Y = np.logical_xor(mask1, mask2)
-    Y = Y.reshape(num, 1)
+    dataset = np.random.randint(2, size=(num, 2))
 
-    return X.T, Y.T
+    mask1 = dataset[:, 0] > 0.5
+    mask2 = dataset[:, 1] > 0.5
+
+    dataset_labels = np.logical_xor(mask1, mask2)
+    dataset_labels = dataset_labels.reshape(num, 1)
+
+    return dataset.T, dataset_labels.T
