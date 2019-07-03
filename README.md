@@ -7,11 +7,11 @@ An OOP Deep Neural Network using a similar syntax as Keras with many hyper-param
 Just clone the repository to your computer to get started:
 
 ```sh
-git clone git@github.com:kinoute/keras-like-nn-ezel.git
-cd keras-like-nn-ezel
+git clone git@github.com:kinoute/Elyane.git
+cd Elyane
 ```
 
-The only dependency to make this neural network work is "numpy". It can be installed directly from the main directory if you don't have it already:
+The only dependency to make this neural network work are "numpy" and "pdoc3". They can be installed directly from the main directory if you don't have them already:
 
 ```sh
 pip3 install -r requirements.txt
