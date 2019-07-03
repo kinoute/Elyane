@@ -2,8 +2,7 @@
 
 echo "Temporary renaming the python files in the root directory..."
 
-for script in *.py;
-do
+for script in *.py; do
     mv $script "$script.bak"
 done
 
@@ -24,10 +23,9 @@ cd ..
 rm -rf Elyane
 cd ..
 
-echo "Renaming the python files to the correct format..."
+echo "Renaming back the python files to the correct format..."
 
-for script in *.bak;
-do
+for script in *.bak; do
     mv $script "${script%.bak}"
 done
 

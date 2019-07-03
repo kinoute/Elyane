@@ -9,9 +9,6 @@ from activations.softmax import Softmax
 from losses.multi_class_cross_entropy import MultiClassCrossEntropy
 
 from optimizers.adam import Adam
-from optimizers.rmsprop import RMSprop
-from optimizers.momentum import Momentum
-from optimizers.no_optim import NoOptim
 
 from utils.mnist_reader import load_mnist
 from utils.one_hot_encoding import one_hot
@@ -42,7 +39,7 @@ net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam()))
 
 # train
 net.use(loss=MultiClassCrossEntropy())
-net.train(x_train, y_train_enc, epochs=50, learning_rate=0.0001, batch_size=256)
+net.train(x_train, y_train_enc, epochs=50, learning_rate=0.001, batch_size=256)
 
 # check training accuracy
 train_results = net.predict(x_train)
