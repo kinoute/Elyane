@@ -1,76 +1,140 @@
-import random
+""" The Neural Network class. """
 import numpy as np
 
 
 class NeuralNetwork:
 
+    """ The Neural Network class that handles everything about the training.
+
+    Attributes:
+        layers (list): List that contains the instances of the NN's layers.
+        loss (object): Object that contains the instance of the picked loss function class.
+    """
+
     def __init__(self):
+        """ Initialize our neural network. """
+
         self.layers = []
         self.loss = None
 
-    # add layer to network
     def add(self, layer):
+        """ Adds a layer to our neural network's structure.
+
+        Args:
+            layer (object): Instance of the picked layer class.
+        """
+
         self.layers.append(layer)
 
-    # add loss function to network
     def use(self, loss):
+        """ Defines the loss function that will be used for the entire neural network.
+
+        Args:
+            loss (object): Instance of the picked loss function class.
+        """
+
         self.loss = loss
 
     def cost(self, loss, size):
-        return (np.sum(loss) / size)
+        """ The cost function formula to check the training status.
 
-    def train(self, X, Y, epochs, learning_rate, batch_size=128):
+        Args:
+            loss (array): The loss of the training set after each iteration.
+            size (float): Size of the training set.
+
+        Returns:
+            float: Returns the cost value of the neural network.
+        """
+
+        return np.sum(loss) / size
+
+    def train(self, x_train, y_train, epochs, learning_rate, batch_size=128):
+        """ Starts the training part of our neural network.
+
+        Args:
+            x_train (array): The dataset that will be used to train our neural network.
+            y_train (array): The labels of the dataset, i.e the good answers.
+            epochs (int): The number of iterations will do to train the neural network.
+            learning_rate (float): The speed at how fast our model will learn.
+            batch_size (int, optional): size of each mini-batch. Default: 128.
+        """
 
         # Number of samples in our training set
-        train_size = X.shape[1]
-        tt = 0
-        for i in range(1, epochs):
+        train_size = x_train.shape[1]
+
+        for i in range(1, epochs + 1):
 
             # shuffle the dataset on each iteration
-            shuffled_X, shuffled_Y = self.shuffle_dataset(X, Y, train_size)
+            shuffled_x, shuffled_y = self.shuffle_dataset(x_train, y_train, train_size)
 
             # train each mini_batch
-            for t, b in enumerate(range(0, train_size, batch_size)):
-
-                tt += 1
+            for batch in range(0, train_size, batch_size):
 
                 # get the (next) mini_batch
-                batch_A, batch_Y = self.get_mini_batch(
-                    shuffled_X, shuffled_Y, b, batch_size)
+                batch_a, batch_y = self.get_mini_batch(shuffled_x, shuffled_y, batch, batch_size)
 
                 # Forward Propagation
                 for layer in self.layers:
-                    batch_A = layer.forward_pass(batch_A)
+                    batch_a = layer.forward_pass(batch_a)
 
-                deriv_activation = self.loss.deriv(batch_Y, batch_A)
+                # compute cost
+                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size)
+
+                deriv_activation = self.loss.deriv(batch_y, batch_a)
 
                 # Backward propagation
                 for layer in reversed(self.layers):
-                    deriv_activation = layer.backward_pass(
-                        deriv_activation, learning_rate, train_size, tt)
+                    deriv_activation = layer.backward_pass(deriv_activation, learning_rate, batch_size)
 
-            print("cost after", i, "iterations:", self.cost(
-                self.loss.fct(batch_Y, batch_A), train_size))
+            print("cost after", i, "iterations:", cost)
 
-    def shuffle_dataset(self, X, Y, train_size):
+    def shuffle_dataset(self, x_train, y_train, train_size):
+        """ Shuffle our dataset for the mini batch gradient descent.
+
+        Args:
+            x_train (array): The dataset that will be used to train our neural network.
+            y_train (array): The labels of the dataset, i.e the good answers.
+            train_size (float): Size of the training set.
+
+        Returns:
+            array: Returns shuffled training dataset and shuffled training labels.
+        """
+
         permutation = list(np.random.permutation(train_size))
-        shuffled_X = X[:, permutation]
-        shuffled_Y = Y[:, permutation]
-        return shuffled_X, shuffled_Y
+        shuffled_x = x_train[:, permutation]
+        shuffled_y = y_train[:, permutation]
+        return shuffled_x, shuffled_y
 
-    def get_mini_batch(self, X, Y, pos, batch_size):
-        batch_X = X[:, pos: pos + batch_size]
-        batch_Y = Y[:, pos: pos + batch_size]
-        return batch_X, batch_Y
+    def get_mini_batch(self, x_train, y_train, pos, batch_size):
+        """ Gets a mini batch according to a position in the original dataset.
 
-    def predict(self, X):
+        Args:
+            x_train (array): The dataset that will be used to train our neural network.
+            y_train (array): The labels of the dataset, i.e the good answers.
+            pos (float): Position into the dataset to do the slicing.
+            batch_size (int): Size of our mini batches.
 
-        # first activation is our training set
-        A = X
+        Returns:
+            array: Returns mini batch for training examples and training labels.
+        """
 
-        # Number of classes to predict
-        #
+        batch_x = x_train[:, pos: pos + batch_size]
+        batch_y = y_train[:, pos: pos + batch_size]
+        return batch_x, batch_y
+
+    def predict(self, data):
+        """ Gets prediction for the given datas.
+
+        Args:
+            data (array): Datas we are trying to get predictions from.
+
+        Returns:
+            array: Returns the prediction of our neural network for the given datas.
+        """
+
+        activ = data
+
         for layer in self.layers:
-            A = layer.forward_pass(A)
+            activ = layer.forward_pass(activ)
 
-        return A
+        return activ

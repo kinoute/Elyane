@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.2" />
-<title>layers.layer API documentation</title>
-<meta name="description" content="" />
+<title>Elyane.layers.layer API documentation</title>
+<meta name="description" content="The Abstract Class / Interface for our Layers" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -17,20 +17,58 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>layers.layer</code></h1>
+<h1 class="title">Module <code>Elyane.layers.layer</code></h1>
 </header>
 <section id="section-intro">
+<p>The Abstract Class / Interface for our Layers</p>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">class Layer:
+<pre><code class="python">&#34;&#34;&#34; The Abstract Class / Interface for our Layers &#34;&#34;&#34;
+
+
+class Layer:
+
+    &#34;&#34;&#34; This class shows what functions are mandatory for each layer class. &#34;&#34;&#34;
 
     def __init__(self, input_size, output_size, activation):
+        &#34;&#34;&#34; What our abstract Layer class needs to have for initialization.
+
+        Args:
+            input_size (int): The input size of our layer.
+            output_size (int): The output size of our layer.
+            activation (object): The activation function used for this layer.
+
+        Raises:
+            NotImplementedError: In case the function has not been implemented.
+        &#34;&#34;&#34;
+
         raise NotImplementedError
 
     def forward_pass(self, input_data):
+        &#34;&#34;&#34; The forward propagation features for our layers.
+
+        Args:
+            input_data (array): The input data for the forward can be the training data or the \
+            ouput of the last layer.
+
+        Raises:
+            NotImplementedError: In case the function has not been implemented.
+        &#34;&#34;&#34;
+
         raise NotImplementedError
 
-    def backward_pass(self, output, learning_rate):
+    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        &#34;&#34;&#34; The backward propagation features for the layer.
+
+        Args:
+            deriv_activation (array): The Gradient of our loss function.
+            learning_rate (float): The learning rate of the neural network.
+            train_size (float): Number of samples in our training set. Can be equal to batch size.
+
+        Raises:
+            NotImplementedError: In case the function has not been implemented.
+        &#34;&#34;&#34;
+
         raise NotImplementedError</code></pre>
 </details>
 </section>
@@ -43,50 +81,145 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="layers.layer.Layer"><code class="flex name class">
+<dt id="Elyane.layers.layer.Layer"><code class="flex name class">
 <span>class <span class="ident">Layer</span></span>
 <span>(</span><span>input_size, output_size, activation)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>This class shows what functions are mandatory for each layer class. </p>
+<p>What our abstract Layer class needs to have for initialization.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>input_size</code></strong> :&ensp;<code>int</code></dt>
+<dd>The input size of our layer.</dd>
+<dt><strong><code>output_size</code></strong> :&ensp;<code>int</code></dt>
+<dd>The output size of our layer.</dd>
+<dt><strong><code>activation</code></strong> :&ensp;<code>object</code></dt>
+<dd>The activation function used for this layer.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>NotImplementedError</code></strong></dt>
+<dd>In case the function has not been implemented.</dd>
+</dl></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">class Layer:
 
+    &#34;&#34;&#34; This class shows what functions are mandatory for each layer class. &#34;&#34;&#34;
+
     def __init__(self, input_size, output_size, activation):
+        &#34;&#34;&#34; What our abstract Layer class needs to have for initialization.
+
+        Args:
+            input_size (int): The input size of our layer.
+            output_size (int): The output size of our layer.
+            activation (object): The activation function used for this layer.
+
+        Raises:
+            NotImplementedError: In case the function has not been implemented.
+        &#34;&#34;&#34;
+
         raise NotImplementedError
 
     def forward_pass(self, input_data):
+        &#34;&#34;&#34; The forward propagation features for our layers.
+
+        Args:
+            input_data (array): The input data for the forward can be the training data or the \
+            ouput of the last layer.
+
+        Raises:
+            NotImplementedError: In case the function has not been implemented.
+        &#34;&#34;&#34;
+
         raise NotImplementedError
 
-    def backward_pass(self, output, learning_rate):
+    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        &#34;&#34;&#34; The backward propagation features for the layer.
+
+        Args:
+            deriv_activation (array): The Gradient of our loss function.
+            learning_rate (float): The learning rate of the neural network.
+            train_size (float): Number of samples in our training set. Can be equal to batch size.
+
+        Raises:
+            NotImplementedError: In case the function has not been implemented.
+        &#34;&#34;&#34;
+
         raise NotImplementedError</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="layers.fc_layer.FCLayer" href="fc_layer.html#layers.fc_layer.FCLayer">FCLayer</a></li>
+<li><a title="Elyane.layers.fc_layer.FCLayer" href="fc_layer.html#Elyane.layers.fc_layer.FCLayer">FCLayer</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="layers.layer.Layer.backward_pass"><code class="name flex">
-<span>def <span class="ident">backward_pass</span></span>(<span>self, output, learning_rate)</span>
+<dt id="Elyane.layers.layer.Layer.backward_pass"><code class="name flex">
+<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>The backward propagation features for the layer.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>deriv_activation</code></strong> :&ensp;<code>array</code></dt>
+<dd>The Gradient of our loss function.</dd>
+<dt><strong><code>learning_rate</code></strong> :&ensp;<code>float</code></dt>
+<dd>The learning rate of the neural network.</dd>
+<dt><strong><code>train_size</code></strong> :&ensp;<code>float</code></dt>
+<dd>Number of samples in our training set. Can be equal to batch size.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>NotImplementedError</code></strong></dt>
+<dd>In case the function has not been implemented.</dd>
+</dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def backward_pass(self, output, learning_rate):
+<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size):
+    &#34;&#34;&#34; The backward propagation features for the layer.
+
+    Args:
+        deriv_activation (array): The Gradient of our loss function.
+        learning_rate (float): The learning rate of the neural network.
+        train_size (float): Number of samples in our training set. Can be equal to batch size.
+
+    Raises:
+        NotImplementedError: In case the function has not been implemented.
+    &#34;&#34;&#34;
+
     raise NotImplementedError</code></pre>
 </details>
 </dd>
-<dt id="layers.layer.Layer.forward_pass"><code class="name flex">
+<dt id="Elyane.layers.layer.Layer.forward_pass"><code class="name flex">
 <span>def <span class="ident">forward_pass</span></span>(<span>self, input_data)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>The forward propagation features for our layers.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>input_data</code></strong> :&ensp;<code>array</code></dt>
+<dd>The input data for the forward can be the training data or the
+ouput of the last layer.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>NotImplementedError</code></strong></dt>
+<dd>In case the function has not been implemented.</dd>
+</dl></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def forward_pass(self, input_data):
+    &#34;&#34;&#34; The forward propagation features for our layers.
+
+    Args:
+        input_data (array): The input data for the forward can be the training data or the \
+        ouput of the last layer.
+
+    Raises:
+        NotImplementedError: In case the function has not been implemented.
+    &#34;&#34;&#34;
+
     raise NotImplementedError</code></pre>
 </details>
 </dd>
@@ -103,16 +236,16 @@
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="layers" href="index.html">layers</a></code></li>
+<li><code><a title="Elyane.layers" href="index.html">Elyane.layers</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="layers.layer.Layer" href="#layers.layer.Layer">Layer</a></code></h4>
+<h4><code><a title="Elyane.layers.layer.Layer" href="#Elyane.layers.layer.Layer">Layer</a></code></h4>
 <ul class="">
-<li><code><a title="layers.layer.Layer.backward_pass" href="#layers.layer.Layer.backward_pass">backward_pass</a></code></li>
-<li><code><a title="layers.layer.Layer.forward_pass" href="#layers.layer.Layer.forward_pass">forward_pass</a></code></li>
+<li><code><a title="Elyane.layers.layer.Layer.backward_pass" href="#Elyane.layers.layer.Layer.backward_pass">backward_pass</a></code></li>
+<li><code><a title="Elyane.layers.layer.Layer.forward_pass" href="#Elyane.layers.layer.Layer.forward_pass">forward_pass</a></code></li>
 </ul>
 </li>
 </ul>

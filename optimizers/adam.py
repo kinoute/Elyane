@@ -10,16 +10,16 @@ class Adam(Optimizer):
     The Adam optimizer with default values and without bias correction.
 
     Extends:
-        Optimization
+        Optimizer
 
     Attributes:
+        var_dw (array): Variance of the weights derivative.
+        var_db (array): Variance of the bias derivative.
+        mean_dw (array): Derivative of the weights with.
+        mean_db (array): Derivative of the bias with.
         beta1 (float): The hyper-parameter for the momentum algorithm.
         beta2 (float): The hyper-parameter for the RMSProp algorithm.
         epsilon (float): A small value to avoid divide by zero errors.
-        mean_db (array): Derivative of the bias with.
-        mean_dw (array): Derivative of the weights with.
-        var_dw (array): Variance of the weights derivative.
-        var_db (array): Variance of the bias derivative.
     """
 
     def __init__(self):
@@ -33,8 +33,8 @@ class Adam(Optimizer):
         self.beta2 = 0.999
         self.epsilon = 1e-8
 
-    def for_dw(self, deriv_weights, time_step):
-        """Optimize the derivative of our weights.
+    def for_dw(self, deriv_weights):
+        """ Optimize the derivative of our weights.
 
         Args:
             deriv_weights (array): Derivative of our weights.
@@ -53,8 +53,8 @@ class Adam(Optimizer):
 
         return self.var_dw / (np.sqrt(self.mean_dw) + self.epsilon)
 
-    def for_db(self, deriv_bias, time_step):
-        """Optimize the derivative of our bias.
+    def for_db(self, deriv_bias):
+        """ Optimize the derivative of our bias.
 
         Args:
             deriv_bias (array): Derivative of our bias.

@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.2" />
-<title>layers.fc_layer API documentation</title>
-<meta name="description" content="Full Connected Layer Class …" />
+<title>Elyane.layers.fc_layer API documentation</title>
+<meta name="description" content="Full Connected Layer Class." />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -17,24 +17,21 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>layers.fc_layer</code></h1>
+<h1 class="title">Module <code>Elyane.layers.fc_layer</code></h1>
 </header>
 <section id="section-intro">
 <p>Full Connected Layer Class.</p>
-<p>This Class herits from the Layer Abstract Class / Interface.</p>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">&#34;&#34;&#34; Full Connected Layer Class.
-
-This Class herits from the Layer Abstract Class / Interface.
-&#34;&#34;&#34;
+<pre><code class="python">&#34;&#34;&#34; Full Connected Layer Class. &#34;&#34;&#34;
 import numpy as np
 from .layer import Layer
+#from .optimizers import no_optim
 
 
 class FCLayer(Layer):
 
-    &#34;&#34;&#34;This class contains everything related to FC Layer.
+    &#34;&#34;&#34; This class contains everything related to FC Layer.
 
     Attributes:
         activation (object): Instance of the activation function of the layer.
@@ -43,28 +40,30 @@ class FCLayer(Layer):
         dBias (array): Derivative of the bias.
         dWeights (array): Derivative of the weights.
         input (array): The input of our layer. Can be the training set or output of the last layer.
-        optim (object): Instance of the optimization class picked for the network.
+        optim (object): Instance of the optimizer class picked for the network.
         pre_activation (array): Linear combinaison before the activation function.
         weights (array): The weights for this particular layer.
     &#34;&#34;&#34;
 
-    def __init__(self, input_size, output_size, activation, optim):
-        &#34;&#34;&#34;Initialize our FC Layer.
+    def __init__(self, input_size, output_size, activation, optimizer):
+        &#34;&#34;&#34; Initialize our FC Layer.
 
         Args:
             input_size (int): Size of what comes into the layer.
             output_size (int): Size of what comes out of the layer.
             activation (object): Instance of the activation function class picked for this layer.
-            optim (object): Instance of the optimizer class picked for the neural network.
+            optimizer (object): Instance of the optimizer class picked for the neural network.
         &#34;&#34;&#34;
+
         self.activation = activation
-        self.weights = np.random.randn(
-            output_size, input_size) * self.activation.heuristic(input_size)
+        self.optimizer = optimizer
+
+        # initialization of our weights and bias
+        self.weights = np.random.randn(output_size, input_size) * self.activation.heuristic(input_size)
         self.bias = np.ones((output_size, 1))
-        self.optim = optim
 
     def forward_pass(self, input_data):
-        &#34;&#34;&#34;The forward propagation features for the layer.
+        &#34;&#34;&#34; The forward propagation features for the layer.
 
         Args:
             input_data (array): The input data for the forward can be the training data or the \
@@ -79,30 +78,28 @@ class FCLayer(Layer):
 
         return self.activation_output
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size, t):
-        &#34;&#34;&#34;The backward propagation features for the layer.
+    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        &#34;&#34;&#34; The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
-            train_size (float): Number of samples in our training set.
-            t (int): Timestep of the network. Useful for Adam optimization.
+            train_size (float): Number of samples in our training set. Can be equal to batch size.
 
         Returns:
             array: Returns the derivative of the activation function after updating parameters.
         &#34;&#34;&#34;
-        deriv_pre_activation = self.activation.deriv(
-            self.activation_output) * deriv_activation
+
+        deriv_pre_activation = self.activation.deriv(self.activation_output) * deriv_activation
         deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
         # derivatives
-        self.dWeights = np.dot(deriv_pre_activation, self.input.T) / train_size
-        self.dBias = np.sum(deriv_pre_activation, axis=1,
-                            keepdims=True) / train_size
+        self.deriv_weights = np.dot(deriv_pre_activation, self.input.T) / train_size
+        self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * self.optim.for_dw(self.dWeights, t)
-        self.bias -= learning_rate * self.optim.for_db(self.dBias, t)
+        self.weights -= learning_rate * self.optimizer.for_dw(self.deriv_weights)
+        self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation</code></pre>
 </details>
@@ -116,9 +113,9 @@ class FCLayer(Layer):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="layers.fc_layer.FCLayer"><code class="flex name class">
+<dt id="Elyane.layers.fc_layer.FCLayer"><code class="flex name class">
 <span>class <span class="ident">FCLayer</span></span>
-<span>(</span><span>input_size, output_size, activation, optim)</span>
+<span>(</span><span>input_size, output_size, activation, optimizer)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>This class contains everything related to FC Layer.</p>
@@ -137,7 +134,7 @@ class FCLayer(Layer):
 <dt><strong><code>input</code></strong> :&ensp;<code>array</code></dt>
 <dd>The input of our layer. Can be the training set or output of the last layer.</dd>
 <dt><strong><code>optim</code></strong> :&ensp;<code>object</code></dt>
-<dd>Instance of the optimization class picked for the network.</dd>
+<dd>Instance of the optimizer class picked for the network.</dd>
 <dt><strong><code>pre_activation</code></strong> :&ensp;<code>array</code></dt>
 <dd>Linear combinaison before the activation function.</dd>
 <dt><strong><code>weights</code></strong> :&ensp;<code>array</code></dt>
@@ -152,14 +149,14 @@ class FCLayer(Layer):
 <dd>Size of what comes out of the layer.</dd>
 <dt><strong><code>activation</code></strong> :&ensp;<code>object</code></dt>
 <dd>Instance of the activation function class picked for this layer.</dd>
-<dt><strong><code>optim</code></strong> :&ensp;<code>object</code></dt>
+<dt><strong><code>optimizer</code></strong> :&ensp;<code>object</code></dt>
 <dd>Instance of the optimizer class picked for the neural network.</dd>
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">class FCLayer(Layer):
 
-    &#34;&#34;&#34;This class contains everything related to FC Layer.
+    &#34;&#34;&#34; This class contains everything related to FC Layer.
 
     Attributes:
         activation (object): Instance of the activation function of the layer.
@@ -168,28 +165,30 @@ class FCLayer(Layer):
         dBias (array): Derivative of the bias.
         dWeights (array): Derivative of the weights.
         input (array): The input of our layer. Can be the training set or output of the last layer.
-        optim (object): Instance of the optimization class picked for the network.
+        optim (object): Instance of the optimizer class picked for the network.
         pre_activation (array): Linear combinaison before the activation function.
         weights (array): The weights for this particular layer.
     &#34;&#34;&#34;
 
-    def __init__(self, input_size, output_size, activation, optim):
-        &#34;&#34;&#34;Initialize our FC Layer.
+    def __init__(self, input_size, output_size, activation, optimizer):
+        &#34;&#34;&#34; Initialize our FC Layer.
 
         Args:
             input_size (int): Size of what comes into the layer.
             output_size (int): Size of what comes out of the layer.
             activation (object): Instance of the activation function class picked for this layer.
-            optim (object): Instance of the optimizer class picked for the neural network.
+            optimizer (object): Instance of the optimizer class picked for the neural network.
         &#34;&#34;&#34;
+
         self.activation = activation
-        self.weights = np.random.randn(
-            output_size, input_size) * self.activation.heuristic(input_size)
+        self.optimizer = optimizer
+
+        # initialization of our weights and bias
+        self.weights = np.random.randn(output_size, input_size) * self.activation.heuristic(input_size)
         self.bias = np.ones((output_size, 1))
-        self.optim = optim
 
     def forward_pass(self, input_data):
-        &#34;&#34;&#34;The forward propagation features for the layer.
+        &#34;&#34;&#34; The forward propagation features for the layer.
 
         Args:
             input_data (array): The input data for the forward can be the training data or the \
@@ -204,45 +203,43 @@ class FCLayer(Layer):
 
         return self.activation_output
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size, t):
-        &#34;&#34;&#34;The backward propagation features for the layer.
+    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        &#34;&#34;&#34; The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
-            train_size (float): Number of samples in our training set.
-            t (int): Timestep of the network. Useful for Adam optimization.
+            train_size (float): Number of samples in our training set. Can be equal to batch size.
 
         Returns:
             array: Returns the derivative of the activation function after updating parameters.
         &#34;&#34;&#34;
-        deriv_pre_activation = self.activation.deriv(
-            self.activation_output) * deriv_activation
+
+        deriv_pre_activation = self.activation.deriv(self.activation_output) * deriv_activation
         deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
         # derivatives
-        self.dWeights = np.dot(deriv_pre_activation, self.input.T) / train_size
-        self.dBias = np.sum(deriv_pre_activation, axis=1,
-                            keepdims=True) / train_size
+        self.deriv_weights = np.dot(deriv_pre_activation, self.input.T) / train_size
+        self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * self.optim.for_dw(self.dWeights, t)
-        self.bias -= learning_rate * self.optim.for_db(self.dBias, t)
+        self.weights -= learning_rate * self.optimizer.for_dw(self.deriv_weights)
+        self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="layers.layer.Layer" href="layer.html#layers.layer.Layer">Layer</a></li>
+<li><a title="Elyane.layers.layer.Layer" href="layer.html#Elyane.layers.layer.Layer">Layer</a></li>
 </ul>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="layers.softmax_layer.SoftmaxLayer" href="softmax_layer.html#layers.softmax_layer.SoftmaxLayer">SoftmaxLayer</a></li>
+<li><a title="Elyane.layers.softmax_layer.SoftmaxLayer" href="softmax_layer.html#Elyane.layers.softmax_layer.SoftmaxLayer">SoftmaxLayer</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="layers.fc_layer.FCLayer.backward_pass"><code class="name flex">
-<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size, t)</span>
+<dt id="Elyane.layers.fc_layer.FCLayer.backward_pass"><code class="name flex">
+<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The backward propagation features for the layer.</p>
@@ -253,9 +250,7 @@ class FCLayer(Layer):
 <dt><strong><code>learning_rate</code></strong> :&ensp;<code>float</code></dt>
 <dd>The learning rate of the neural network.</dd>
 <dt><strong><code>train_size</code></strong> :&ensp;<code>float</code></dt>
-<dd>Number of samples in our training set.</dd>
-<dt><strong><code>t</code></strong> :&ensp;<code>int</code></dt>
-<dd>Timestep of the network. Useful for Adam optimization.</dd>
+<dd>Number of samples in our training set. Can be equal to batch size.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -264,35 +259,33 @@ class FCLayer(Layer):
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size, t):
-    &#34;&#34;&#34;The backward propagation features for the layer.
+<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size):
+    &#34;&#34;&#34; The backward propagation features for the layer.
 
     Args:
         deriv_activation (array): The Gradient of our loss function.
         learning_rate (float): The learning rate of the neural network.
-        train_size (float): Number of samples in our training set.
-        t (int): Timestep of the network. Useful for Adam optimization.
+        train_size (float): Number of samples in our training set. Can be equal to batch size.
 
     Returns:
         array: Returns the derivative of the activation function after updating parameters.
     &#34;&#34;&#34;
-    deriv_pre_activation = self.activation.deriv(
-        self.activation_output) * deriv_activation
+
+    deriv_pre_activation = self.activation.deriv(self.activation_output) * deriv_activation
     deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
     # derivatives
-    self.dWeights = np.dot(deriv_pre_activation, self.input.T) / train_size
-    self.dBias = np.sum(deriv_pre_activation, axis=1,
-                        keepdims=True) / train_size
+    self.deriv_weights = np.dot(deriv_pre_activation, self.input.T) / train_size
+    self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
     # update parameters
-    self.weights -= learning_rate * self.optim.for_dw(self.dWeights, t)
-    self.bias -= learning_rate * self.optim.for_db(self.dBias, t)
+    self.weights -= learning_rate * self.optimizer.for_dw(self.deriv_weights)
+    self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
     return deriv_activation</code></pre>
 </details>
 </dd>
-<dt id="layers.fc_layer.FCLayer.forward_pass"><code class="name flex">
+<dt id="Elyane.layers.fc_layer.FCLayer.forward_pass"><code class="name flex">
 <span>def <span class="ident">forward_pass</span></span>(<span>self, input_data)</span>
 </code></dt>
 <dd>
@@ -311,7 +304,7 @@ ouput of the last layer.</dd>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def forward_pass(self, input_data):
-    &#34;&#34;&#34;The forward propagation features for the layer.
+    &#34;&#34;&#34; The forward propagation features for the layer.
 
     Args:
         input_data (array): The input data for the forward can be the training data or the \
@@ -340,16 +333,16 @@ ouput of the last layer.</dd>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="layers" href="index.html">layers</a></code></li>
+<li><code><a title="Elyane.layers" href="index.html">Elyane.layers</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="layers.fc_layer.FCLayer" href="#layers.fc_layer.FCLayer">FCLayer</a></code></h4>
+<h4><code><a title="Elyane.layers.fc_layer.FCLayer" href="#Elyane.layers.fc_layer.FCLayer">FCLayer</a></code></h4>
 <ul class="">
-<li><code><a title="layers.fc_layer.FCLayer.backward_pass" href="#layers.fc_layer.FCLayer.backward_pass">backward_pass</a></code></li>
-<li><code><a title="layers.fc_layer.FCLayer.forward_pass" href="#layers.fc_layer.FCLayer.forward_pass">forward_pass</a></code></li>
+<li><code><a title="Elyane.layers.fc_layer.FCLayer.backward_pass" href="#Elyane.layers.fc_layer.FCLayer.backward_pass">backward_pass</a></code></li>
+<li><code><a title="Elyane.layers.fc_layer.FCLayer.forward_pass" href="#Elyane.layers.fc_layer.FCLayer.forward_pass">forward_pass</a></code></li>
 </ul>
 </li>
 </ul>

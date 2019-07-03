@@ -1,13 +1,23 @@
-''' Abstract Class / Interface of our losses functions '''
+""" Abstract Class / Interface of our losses functions  """
 
 
 class Loss:
-    ''' this class contains the needed functions for our classes  '''
+    """ This class contains the needed functions for our classes """
 
-    def fct(self):
-        ''' every loss class sould have a fct method '''
+    def fct(self, labels, preds):
+        """ Every loss class sould have a fct method.
+
+        Raises:
+            NotImplementedError: Description
+        """
+
         raise NotImplementedError
 
-    def deriv(self):
-        ''' every loss class should have a derivative method '''
+    def deriv(self, labels, preds):
+        """every loss class should have a derivative method.
+
+        Raises:
+            NotImplementedError: Description
+        """
+
         raise NotImplementedError

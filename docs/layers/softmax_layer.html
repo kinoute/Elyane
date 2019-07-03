@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.2" />
-<title>layers.softmax_layer API documentation</title>
+<title>Elyane.layers.softmax_layer API documentation</title>
 <meta name="description" content="The Softmax Layer class." />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -17,39 +17,38 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>layers.softmax_layer</code></h1>
+<h1 class="title">Module <code>Elyane.layers.softmax_layer</code></h1>
 </header>
 <section id="section-intro">
 <p>The Softmax Layer class.</p>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">&#34;&#34;&#34;The Softmax Layer class.
-&#34;&#34;&#34;
+<pre><code class="python">&#34;&#34;&#34; The Softmax Layer class. &#34;&#34;&#34;
 import numpy as np
 from .fc_layer import FCLayer
 
 
 class SoftmaxLayer(FCLayer):
 
-    &#34;&#34;&#34;The SoftMax Layer Class lets us configure the backward specially for this type of activation.
+    &#34;&#34;&#34; The SoftMax Layer Class lets us configure the backward specially for this type of activation.
 
     Attributes:
         deriv_bias (array): The derivative of our bias.
         deriv_weights (array): The derivative of our weights.
     &#34;&#34;&#34;
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size, time_step):
-        &#34;&#34;&#34;The backward propagation for the softmax layer.
+    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        &#34;&#34;&#34; The backward propagation for the softmax layer.
 
         Args:
             deriv_activation (array): The derivative of our activation function.
             learning_rate (float): The learning rate of our neural network.
             train_size (int): The number of examples of the training set.
-            time_step (int): The time step since the beginning of the iterations.
 
         Returns:
             array: The derivative of the activation function
         &#34;&#34;&#34;
+
         deriv_pre_activation = deriv_activation
         deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
@@ -58,8 +57,8 @@ class SoftmaxLayer(FCLayer):
         self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * self.optim.for_dw(self.deriv_weights, time_step)
-        self.bias -= learning_rate * self.optim.for_db(self.deriv_bias, time_step)
+        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights))
+        self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation</code></pre>
 </details>
@@ -73,9 +72,9 @@ class SoftmaxLayer(FCLayer):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="layers.softmax_layer.SoftmaxLayer"><code class="flex name class">
+<dt id="Elyane.layers.softmax_layer.SoftmaxLayer"><code class="flex name class">
 <span>class <span class="ident">SoftmaxLayer</span></span>
-<span>(</span><span>input_size, output_size, activation, optim)</span>
+<span>(</span><span>input_size, output_size, activation, optimizer)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The SoftMax Layer Class lets us configure the backward specially for this type of activation.</p>
@@ -95,32 +94,32 @@ class SoftmaxLayer(FCLayer):
 <dd>Size of what comes out of the layer.</dd>
 <dt><strong><code>activation</code></strong> :&ensp;<code>object</code></dt>
 <dd>Instance of the activation function class picked for this layer.</dd>
-<dt><strong><code>optim</code></strong> :&ensp;<code>object</code></dt>
+<dt><strong><code>optimizer</code></strong> :&ensp;<code>object</code></dt>
 <dd>Instance of the optimizer class picked for the neural network.</dd>
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">class SoftmaxLayer(FCLayer):
 
-    &#34;&#34;&#34;The SoftMax Layer Class lets us configure the backward specially for this type of activation.
+    &#34;&#34;&#34; The SoftMax Layer Class lets us configure the backward specially for this type of activation.
 
     Attributes:
         deriv_bias (array): The derivative of our bias.
         deriv_weights (array): The derivative of our weights.
     &#34;&#34;&#34;
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size, time_step):
-        &#34;&#34;&#34;The backward propagation for the softmax layer.
+    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        &#34;&#34;&#34; The backward propagation for the softmax layer.
 
         Args:
             deriv_activation (array): The derivative of our activation function.
             learning_rate (float): The learning rate of our neural network.
             train_size (int): The number of examples of the training set.
-            time_step (int): The time step since the beginning of the iterations.
 
         Returns:
             array: The derivative of the activation function
         &#34;&#34;&#34;
+
         deriv_pre_activation = deriv_activation
         deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
@@ -129,20 +128,20 @@ class SoftmaxLayer(FCLayer):
         self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * self.optim.for_dw(self.deriv_weights, time_step)
-        self.bias -= learning_rate * self.optim.for_db(self.deriv_bias, time_step)
+        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights))
+        self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="layers.fc_layer.FCLayer" href="fc_layer.html#layers.fc_layer.FCLayer">FCLayer</a></li>
-<li><a title="layers.layer.Layer" href="layer.html#layers.layer.Layer">Layer</a></li>
+<li><a title="Elyane.layers.fc_layer.FCLayer" href="fc_layer.html#Elyane.layers.fc_layer.FCLayer">FCLayer</a></li>
+<li><a title="Elyane.layers.layer.Layer" href="layer.html#Elyane.layers.layer.Layer">Layer</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="layers.softmax_layer.SoftmaxLayer.backward_pass"><code class="name flex">
-<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size, time_step)</span>
+<dt id="Elyane.layers.softmax_layer.SoftmaxLayer.backward_pass"><code class="name flex">
+<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The backward propagation for the softmax layer.</p>
@@ -154,8 +153,6 @@ class SoftmaxLayer(FCLayer):
 <dd>The learning rate of our neural network.</dd>
 <dt><strong><code>train_size</code></strong> :&ensp;<code>int</code></dt>
 <dd>The number of examples of the training set.</dd>
-<dt><strong><code>time_step</code></strong> :&ensp;<code>int</code></dt>
-<dd>The time step since the beginning of the iterations.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -164,18 +161,18 @@ class SoftmaxLayer(FCLayer):
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size, time_step):
-    &#34;&#34;&#34;The backward propagation for the softmax layer.
+<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size):
+    &#34;&#34;&#34; The backward propagation for the softmax layer.
 
     Args:
         deriv_activation (array): The derivative of our activation function.
         learning_rate (float): The learning rate of our neural network.
         train_size (int): The number of examples of the training set.
-        time_step (int): The time step since the beginning of the iterations.
 
     Returns:
         array: The derivative of the activation function
     &#34;&#34;&#34;
+
     deriv_pre_activation = deriv_activation
     deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
@@ -184,8 +181,8 @@ class SoftmaxLayer(FCLayer):
     self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
     # update parameters
-    self.weights -= learning_rate * self.optim.for_dw(self.deriv_weights, time_step)
-    self.bias -= learning_rate * self.optim.for_db(self.deriv_bias, time_step)
+    self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights))
+    self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
     return deriv_activation</code></pre>
 </details>
@@ -193,9 +190,9 @@ class SoftmaxLayer(FCLayer):
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="layers.fc_layer.FCLayer" href="fc_layer.html#layers.fc_layer.FCLayer">FCLayer</a></b></code>:
+<li><code><b><a title="Elyane.layers.fc_layer.FCLayer" href="fc_layer.html#Elyane.layers.fc_layer.FCLayer">FCLayer</a></b></code>:
 <ul class="hlist">
-<li><code><a title="layers.fc_layer.FCLayer.forward_pass" href="fc_layer.html#layers.fc_layer.FCLayer.forward_pass">forward_pass</a></code></li>
+<li><code><a title="Elyane.layers.fc_layer.FCLayer.forward_pass" href="fc_layer.html#Elyane.layers.fc_layer.FCLayer.forward_pass">forward_pass</a></code></li>
 </ul>
 </li>
 </ul>
@@ -211,15 +208,15 @@ class SoftmaxLayer(FCLayer):
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="layers" href="index.html">layers</a></code></li>
+<li><code><a title="Elyane.layers" href="index.html">Elyane.layers</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="layers.softmax_layer.SoftmaxLayer" href="#layers.softmax_layer.SoftmaxLayer">SoftmaxLayer</a></code></h4>
+<h4><code><a title="Elyane.layers.softmax_layer.SoftmaxLayer" href="#Elyane.layers.softmax_layer.SoftmaxLayer">SoftmaxLayer</a></code></h4>
 <ul class="">
-<li><code><a title="layers.softmax_layer.SoftmaxLayer.backward_pass" href="#layers.softmax_layer.SoftmaxLayer.backward_pass">backward_pass</a></code></li>
+<li><code><a title="Elyane.layers.softmax_layer.SoftmaxLayer.backward_pass" href="#Elyane.layers.softmax_layer.SoftmaxLayer.backward_pass">backward_pass</a></code></li>
 </ul>
 </li>
 </ul>

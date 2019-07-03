@@ -14,17 +14,19 @@ class Activation:
         Raises:
             NotImplementedError: In case the function has not been implemented.
         """
+
         raise NotImplementedError
 
     def deriv(self, F):
         """ The derivative of the activation function.
 
         Args:
-            F (array): The derivative of the activation function according to the last activation ouput.
+            F (array): The derivative of the activation function according to the last activation output.
 
         Raises:
             NotImplementedError: In case the function has not been implemented.
         """
+
         raise NotImplementedError
 
     def heuristic(self, F):
@@ -36,4 +38,5 @@ class Activation:
         Raises:
             NotImplementedError: In case the function has not been implemented.
         """
+
         raise NotImplementedError

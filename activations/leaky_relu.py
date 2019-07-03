@@ -1,6 +1,6 @@
 """ The Leaky Relu activation function"""
 import numpy as np
-from activations import Activation
+from .activation import Activation
 
 
 class LeakyRelu(Activation):
@@ -8,34 +8,37 @@ class LeakyRelu(Activation):
     """ The Leaky Relu activation function Class. """
 
     def activ(self, F):
-        """Summary
+        """ The activation function formula for the Leaky Relu.
 
         Args:
-            F (TYPE): Description
+            F (array): Linear combinaison, most likely W.X + b.
 
         Returns:
-            TYPE: Description
+            array: Returns the result of the Leaky Relu activation function.
         """
+
         return np.where(F > 0, F, F * 0.01)
 
     def deriv(self, F):
-        """Summary
+        """ The derivative of the Leaky Relu activation function.
 
         Args:
-            F (TYPE): Description
+            F (array): The derivative of the activation function according to the last activation output.
 
         Returns:
-            TYPE: Description
+            array: Returns the result of the derivative of the Leaky Relu according to F.
         """
+
         return np.clip(F > 0, 0.01, 1.0)
 
     def heuristic(self, F):
-        """Summary
+        """ The heuristic formula to initialize our weights better when using the Leaky Relu.
 
         Args:
-            F (TYPE): Description
+            F (float): The size of the layer(s).
 
         Returns:
-            TYPE: Description
+            array: Returns the heuristic for leaky Relu to initialize layer's weights better.
         """
+
         return np.sqrt(2 / F)

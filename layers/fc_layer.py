@@ -6,7 +6,7 @@ from .layer import Layer
 
 class FCLayer(Layer):
 
-    """This class contains everything related to FC Layer.
+    """ This class contains everything related to FC Layer.
 
     Attributes:
         activation (object): Instance of the activation function of the layer.
@@ -21,7 +21,7 @@ class FCLayer(Layer):
     """
 
     def __init__(self, input_size, output_size, activation, optimizer):
-        """Initialize our FC Layer.
+        """ Initialize our FC Layer.
 
         Args:
             input_size (int): Size of what comes into the layer.
@@ -29,6 +29,7 @@ class FCLayer(Layer):
             activation (object): Instance of the activation function class picked for this layer.
             optimizer (object): Instance of the optimizer class picked for the neural network.
         """
+
         self.activation = activation
         self.optimizer = optimizer
 
@@ -52,18 +53,18 @@ class FCLayer(Layer):
 
         return self.activation_output
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size, time_step):
+    def backward_pass(self, deriv_activation, learning_rate, train_size):
         """ The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
-            train_size (float): Number of samples in our training set.
-            time_step (int): Timestep of the network. Useful for Adam optimization.
+            train_size (float): Number of samples in our training set. Can be equal to batch size.
 
         Returns:
             array: Returns the derivative of the activation function after updating parameters.
         """
+
         deriv_pre_activation = self.activation.deriv(self.activation_output) * deriv_activation
         deriv_activation = np.dot(self.weights.T, deriv_pre_activation)
 
@@ -72,7 +73,7 @@ class FCLayer(Layer):
         self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * self.optimizer.for_dw(self.deriv_weights, time_step)
-        self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias, time_step)
+        self.weights -= learning_rate * self.optimizer.for_dw(self.deriv_weights)
+        self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation
