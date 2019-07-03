@@ -7,38 +7,38 @@ class Sigmoid(Activation):
 
     """ The Sigmoid activation function Class. """
 
-    def activ(self, F):
+    def activ(self, data):
         """ The activation function formula for the Sigmoid.
 
         Args:
-            F (array): Linear combinaison, most likely W.X + b.
+            data (array): Linear combinaison, most likely W.X + b.
 
         Returns:
             array: Returns the result of the Sigmoid activation function.
         """
 
-        return 1 / (1 + np.exp(- F))
+        return 1 / (1 + np.exp(- data))
 
-    def deriv(self, F):
+    def deriv(self, data):
         """ The derivative of the Sigmoid activation function.
 
         Args:
-            F (array): The derivative of the Sigmoid function according to the last activation output.
+            data (array): The derivative of the Sigmoid function according to the last activation output.
 
         Returns:
-            array: Returns the result of the derivative of the Sigmoid according to F.
+            array: Returns the result of the derivative of the Sigmoid according to data.
         """
 
-        return F * (1 - F)
+        return data * (1 - data)
 
-    def heuristic(self, F):
+    def heuristic(self, data):
         """ The heuristic formula to initialize our weights better when using the Sigmoid.
 
         Args:
-            F (float): The size of the layer(s).
+            data (float): The size of the layer(s).
 
         Returns:
             array: Returns the heuristic for Sigmoid to initialize layer's weights better.
         """
 
-        return np.sqrt(1 / F)
+        return np.sqrt(1 / data)
