@@ -18,7 +18,7 @@ class MSE(Loss):
             array: Returns the loss according to A and Y.
         """
 
-        return np.mean(np.power(Y - A, 2))
+        return np.mean(np.power(labels - preds, 2))
 
     def deriv(self, labels, preds):
         """ Calculates the derivative of the MSE loss function.
