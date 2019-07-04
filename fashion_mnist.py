@@ -11,8 +11,8 @@ from losses.multi_class_cross_entropy import MultiClassCrossEntropy
 
 from optimizers.adam import Adam
 
-from regularization.no_regularization import NoReg
-from regularization.l2_regularization import L2Regularization
+from regularizers.no_regularizer import NoReg
+from regularizers.l2_regularizer import L2Regularizer
 
 from utils.mnist_reader import load_mnist
 from utils.one_hot_encoding import one_hot
@@ -36,10 +36,10 @@ num_pixels = x_train.shape[0]
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(num_pixels, 100, activation=TanH(), optimizer=Adam(), regularization=NoReg()))
-net.add(FCLayer(100, 50, activation=TanH(), optimizer=Adam(), regularization=NoReg()))
-net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam(), regularization=NoReg()))
-net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam(), regularization=NoReg()))
+net.add(FCLayer(num_pixels, 100, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
+net.add(FCLayer(100, 50, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
+net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
+net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam(), regularizer=NoReg()))
 
 # train
 net.use(loss=MultiClassCrossEntropy())

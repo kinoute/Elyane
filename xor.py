@@ -11,8 +11,8 @@ from optimizers.rmsprop import RMSprop
 from optimizers.momentum import Momentum
 from optimizers.no_optim import NoOptim
 
-from regularization.no_regularization import NoReg
-from regularization.l2_regularization import L2Regularization
+from regularizers.no_regularizer import NoReg
+from regularizers.l2_regularizer import L2Regularizer
 
 from losses.cross_entropy import CrossEntropy
 

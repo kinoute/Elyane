@@ -9,8 +9,8 @@ from activations.softmax import Softmax
 
 from optimizers.adam import Adam
 
-from regularizers.no_regularization import NoReg
-from regularizers.l2_regularization import L2Regularization
+from regularizers.no_regularizer import NoReg
+from regularizers.l2_regularizer import L2Regularizer
 
 from losses.multi_class_cross_entropy import MultiClassCrossEntropy
 
