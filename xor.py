@@ -1,7 +1,7 @@
 from neuralnetwork.neural_network import NeuralNetwork
 
 from layers.fc_layer import FCLayer
-from layers.dropout import DropOut
+from layers.dropout_layer import DropOut
 
 from activations.tanh import TanH
 from activations.sigmoid import Sigmoid
@@ -25,12 +25,12 @@ X, Y = create_xor_dataset(5000)
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(2, 5, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
-net.add(DropOut(keep_prob=1.0))
-net.add(FCLayer(5, 2, activation=Sigmoid(), optimizer=Adam(), regularizer=NoReg()))
+net.add(FCLayer(2, 5, activation=TanH(), optimizer=Adam()))
+net.add(DropOut(rate=0))
+net.add(FCLayer(5, 2, activation=Sigmoid(), optimizer=Adam()))
 
 # train
-net.use(loss=CrossEntropy())
+net.use(loss=CrossEntropy(), regularizer=NoReg())
 net.train(X, Y, epochs=50, learning_rate=0.01, batch_size=256)
 
 # training accuracy

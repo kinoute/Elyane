@@ -1,5 +1,4 @@
-"""Summary
-"""
+""" The L1 Regularization Class """
 import numpy as np
 from .regularizer import Regularizer
 
@@ -12,15 +11,6 @@ class L1Regularizer(Regularizer):
         cost (int): Description
         lambd (TYPE): Description
     """
-
-    def __init__(self, lambd=0):
-        """Summary
-
-        Args:
-            lambd (int, optional): Description
-        """
-        self.cost = 0
-        self.lambd = lambd
 
     def forward(self, weights):
         """Summary

@@ -12,16 +12,6 @@ class L2Regularizer(Regularizer):
         lambd (float): The hyper parameter for the L2 Regularization.
     """
 
-    def __init__(self, lambd=0):
-        """Summary
-
-        Args:
-            lambd (TYPE): Description
-        """
-
-        self.cost = 0
-        self.lambd = lambd
-
     def forward(self, weights):
         """Summary
 

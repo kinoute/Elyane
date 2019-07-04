@@ -16,6 +16,8 @@ class NeuralNetwork:
 
         self.layers = []
         self.loss = None
+        self.regularizer = None
+        self.weights = 0
 
     def add(self, layer):
         """ Adds a layer to our neural network's structure.
@@ -26,7 +28,7 @@ class NeuralNetwork:
 
         self.layers.append(layer)
 
-    def use(self, loss):
+    def use(self, loss, regularizer):
         """ Defines the loss function that will be used for the entire neural network.
 
         Args:
@@ -34,6 +36,7 @@ class NeuralNetwork:
         """
 
         self.loss = loss
+        self.regularizer = regularizer
 
     def cost(self, loss, size):
         """ The cost function formula to check the training status.
@@ -46,7 +49,7 @@ class NeuralNetwork:
             float: Returns the cost value of the neural network.
         """
 
-        return np.sum(loss) / size
+        return (np.sum(loss) / size) + self.regularizer.forward(self.weights)
 
     def train(self, x_train, y_train, epochs, learning_rate, batch_size=128):
         """ Starts the training part of our neural network.
@@ -59,7 +62,7 @@ class NeuralNetwork:
             batch_size (int, optional): size of each mini-batch. Default: 128.
         """
 
-        # Number of samples in our training set
+        # Number of samples in the entire training set
         train_size = x_train.shape[1]
 
         for i in range(1, epochs + 1):
@@ -73,18 +76,22 @@ class NeuralNetwork:
                 # get the (next) mini_batch
                 batch_a, batch_y = self.get_mini_batch(shuffled_x, shuffled_y, batch, batch_size)
 
-                # Forward Propagation
+                # forward propagation
                 for layer in self.layers:
-                    batch_a = layer.forward_pass(batch_a)
+                    batch_a, weights = layer.forward_pass(batch_a)
+                    self.weights = weights
 
                 # compute cost
                 cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size)
 
                 deriv_activation = self.loss.deriv(batch_y, batch_a)
 
-                # Backward propagation
+                # backward propagation
                 for layer in reversed(self.layers):
-                    deriv_activation = layer.backward_pass(deriv_activation, learning_rate, batch_size)
+                    deriv_activation = layer.backward_pass(deriv_activation,
+                                                           learning_rate,
+                                                           batch_size,
+                                                           self.regularizer)
 
             print("cost after", i, "iterations:", cost)
 
@@ -137,6 +144,6 @@ class NeuralNetwork:
         activ = data
 
         for layer in self.layers:
-            activ = layer.forward_pass(activ)
+            activ, _ = layer.forward_pass(activ)
 
         return activ

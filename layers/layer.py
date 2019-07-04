@@ -32,13 +32,14 @@ class Layer:
 
         raise NotImplementedError
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+    def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
         """ The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
             train_size (float): Number of samples in our training set. Can be equal to batch size.
+            regularizer (object) : Instance of the regularizer class picked for the network.
 
         Raises:
             NotImplementedError: In case the function has not been implemented.

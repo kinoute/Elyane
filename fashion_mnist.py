@@ -2,7 +2,7 @@ from neuralnetwork.neural_network import NeuralNetwork
 
 from layers.fc_layer import FCLayer
 from layers.softmax_layer import SoftmaxLayer
-from layers.dropout import DropOut
+from layers.dropout_layer import DropOut
 
 from activations.tanh import TanH
 from activations.softmax import Softmax
@@ -36,14 +36,14 @@ num_pixels = x_train.shape[0]
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(num_pixels, 100, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
-net.add(FCLayer(100, 50, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
-net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
-net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam(), regularizer=NoReg()))
+net.add(FCLayer(num_pixels, 100, activation=TanH(), optimizer=Adam()))
+net.add(FCLayer(100, 50, activation=TanH(), optimizer=Adam()))
+net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam()))
+net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam()))
 
 # train
-net.use(loss=MultiClassCrossEntropy())
-net.train(x_train, y_train_enc, epochs=50, learning_rate=0.001, batch_size=256)
+net.use(loss=MultiClassCrossEntropy(), regularizer=L2Regularizer(lambd=0.7))
+net.train(x_train, y_train_enc, epochs=10, learning_rate=0.001, batch_size=256)
 
 # check training accuracy
 train_results = net.predict(x_train)

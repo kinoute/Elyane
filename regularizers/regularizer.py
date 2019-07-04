@@ -6,16 +6,14 @@ class Regularizer:
     """docstring for Regularizer
     """
 
-    def __init__(self, lambd):
+    def __init__(self, lambd=0):
         """Summary
 
         Args:
-            lambd (TYPE): Description
-
-        Returns:
-            TYPE: Description
+            lambd (int, optional): Description
         """
-        return NotImplementedError
+        self.cost = 0
+        self.lambd = lambd
 
     def forward(self, weights):
         """Summary

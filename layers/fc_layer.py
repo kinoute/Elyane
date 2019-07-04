@@ -21,7 +21,7 @@ class FCLayer(Layer):
         weights (array): The weights for this particular layer.
     """
 
-    def __init__(self, input_size, output_size, activation, optimizer, regularizer):
+    def __init__(self, input_size, output_size, activation, optimizer):
         """ Initialize our FC Layer.
 
         Args:
@@ -29,12 +29,10 @@ class FCLayer(Layer):
             output_size (int): Size of what comes out of the layer.
             activation (object): Instance of the activation function class picked for this layer.
             optimizer (object): Instance of the optimizer class picked for the neural network.
-            regularizer (object) : Instance of the regularizer class picked for the network.
         """
 
         self.activation = activation
         self.optimizer = optimizer
-        self.regularizer = regularizer
 
         # initialization of our weights and bias
         self.weights = np.random.randn(output_size, input_size) * self.activation.heuristic(input_size)
@@ -54,15 +52,16 @@ class FCLayer(Layer):
         self.pre_activation = np.dot(self.weights, self.input) + self.bias
         self.activation_output = self.activation.activ(self.pre_activation)
 
-        return self.activation_output
+        return self.activation_output, self.weights
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+    def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
         """ The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
             train_size (float): Number of samples in our training set. Can be equal to batch size.
+            regularizer (object) : Instance of the regularizer class picked for the network.
 
         Returns:
             array: Returns the derivative of the activation function after updating parameters.
@@ -77,7 +76,7 @@ class FCLayer(Layer):
 
         # update parameters
         self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
-                                         + self.regularizer.backward(self.weights) / train_size)
+                                         + regularizer.backward(self.weights) / train_size)
         self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation

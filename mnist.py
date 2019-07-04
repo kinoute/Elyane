@@ -36,17 +36,17 @@ num_pixels = x_train.shape[0]
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(num_pixels, 100, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
-net.add(DropOut(rate=0.15))
-net.add(FCLayer(100, 50, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
-net.add(DropOut(rate=0.10))
-net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
-net.add(DropOut(rate=0.05))
-net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam(), regularizer=NoReg()))
+net.add(FCLayer(num_pixels, 100, activation=TanH(), optimizer=Adam()))
+net.add(DropOut(rate=0.0))
+net.add(FCLayer(100, 50, activation=TanH(), optimizer=Adam()))
+net.add(DropOut(rate=0.0))
+net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam()))
+net.add(DropOut(rate=0.0))
+net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam()))
 
 # train
-net.use(loss=MultiClassCrossEntropy())
-net.train(x_train, y_train_enc, epochs=100, learning_rate=0.001, batch_size=256)
+net.use(loss=MultiClassCrossEntropy(), regularizer=NoReg())
+net.train(x_train, y_train_enc, epochs=50, learning_rate=0.001, batch_size=256)
 
 # check training accuracy
 train_results = net.predict(x_train)
