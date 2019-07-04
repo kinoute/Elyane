@@ -25,9 +25,9 @@ X, Y = create_xor_dataset(5000)
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(2, 5, activation=TanH(), optimizer=Adam(), regularization=NoReg()))
+net.add(FCLayer(2, 5, activation=TanH(), optimizer=Adam(), regularizer=NoReg()))
 net.add(DropOut(keep_prob=1.0))
-net.add(FCLayer(5, 2, activation=Sigmoid(), optimizer=Adam(), regularization=NoReg()))
+net.add(FCLayer(5, 2, activation=Sigmoid(), optimizer=Adam(), regularizer=NoReg()))
 
 # train
 net.use(loss=CrossEntropy())

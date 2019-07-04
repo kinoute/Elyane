@@ -17,7 +17,7 @@ class DropOut(Layer):
         """ Initialisation for the dropout layer.
 
         Args:
-            rate (float): The probability given by the user to drop hidden-units in the previous layer. 
+            rate (float): The probability given by the user to drop hidden-units in the previous layer.
         """
 
         self.rate = 1 - rate
