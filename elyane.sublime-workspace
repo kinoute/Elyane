@@ -127,6 +127,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "layers/fc_layer.py",
+			"settings":
+			{
+				"buffer_size": 3623,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -176,7 +184,8 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Formation/Elyane"
+		"/C/Users/Formation/Elyane",
+		"/C/Users/Formation/Elyane/layers"
 	],
 	"file_history":
 	[
@@ -242,8 +251,41 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "layers/fc_layer.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 3623,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3476,
+								3476
+							]
+						],
+						"settings":
+						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 216.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
