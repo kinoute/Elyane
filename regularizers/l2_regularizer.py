@@ -22,7 +22,7 @@ class L2Regularizer(Regularizer):
             TYPE: Description
         """
 
-        self.cost += (np.sum(np.square(weights))) * (self.lambd / 2)
+        return self.lambd * (np.sum(np.square(weights)))
 
         return self.cost
 

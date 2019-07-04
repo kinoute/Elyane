@@ -30,7 +30,7 @@ net.add(DropOut(rate=0))
 net.add(FCLayer(5, 2, activation=Sigmoid(), optimizer=Adam()))
 
 # train
-net.use(loss=CrossEntropy(), regularizer=NoReg())
+net.use(loss=CrossEntropy(), regularizer=L2Regularizer(lambd=0.7))
 net.train(X, Y, epochs=50, learning_rate=0.01, batch_size=256)
 
 # training accuracy

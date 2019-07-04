@@ -49,7 +49,7 @@ class NeuralNetwork:
             float: Returns the cost value of the neural network.
         """
 
-        return (np.sum(loss) / size) + self.regularizer.forward(self.weights)
+        return np.sum(loss) / size
 
     def train(self, x_train, y_train, epochs, learning_rate, batch_size=128):
         """ Starts the training part of our neural network.
@@ -79,10 +79,9 @@ class NeuralNetwork:
                 # forward propagation
                 for layer in self.layers:
                     batch_a, weights = layer.forward_pass(batch_a)
-                    self.weights = weights
 
                 # compute cost
-                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size)
+                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size) + (self.regularizer.forward(weights) / (2 * batch_size))
 
                 deriv_activation = self.loss.deriv(batch_y, batch_a)
 
