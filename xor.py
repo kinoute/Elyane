@@ -1,6 +1,7 @@
 from neuralnetwork.neural_network import NeuralNetwork
 
 from layers.fc_layer import FCLayer
+from layers.dropout import DropOut
 
 from activations.tanh import TanH
 from activations.sigmoid import Sigmoid
@@ -9,6 +10,9 @@ from optimizers.adam import Adam
 from optimizers.rmsprop import RMSprop
 from optimizers.momentum import Momentum
 from optimizers.no_optim import NoOptim
+
+from regularization.no_regularization import NoReg
+from regularization.l2_regularization import L2Regularization
 
 from losses.cross_entropy import CrossEntropy
 
@@ -21,8 +25,9 @@ X, Y = create_xor_dataset(5000)
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(2, 5, activation=TanH(), optimizer=Adam()))
-net.add(FCLayer(5, 2, activation=Sigmoid(), optimizer=Adam()))
+net.add(FCLayer(2, 5, activation=TanH(), optimizer=Adam(), regularization=NoReg()))
+net.add(DropOut(keep_prob=1.0))
+net.add(FCLayer(5, 2, activation=Sigmoid(), optimizer=Adam(), regularization=NoReg()))
 
 # train
 net.use(loss=CrossEntropy())

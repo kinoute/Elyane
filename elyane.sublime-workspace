@@ -1,0 +1,336 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"tra",
+				"train_size\t(layer.py)"
+			],
+			[
+				"dr",
+				"dropout\t(dropout.py)"
+			],
+			[
+				"inpu",
+				"input_data\tabc"
+			],
+			[
+				"deriv",
+				"deriv_pre_activation\tabc"
+			],
+			[
+				"der",
+				"deriv_activation\tabc"
+			],
+			[
+				"Sof",
+				"SoftmaxDropOut\tabc"
+			],
+			[
+				"sof",
+				"softmax\tabc"
+			],
+			[
+				"So",
+				"SoftmaxDropOut\t(softmax_dropout.py)"
+			],
+			[
+				"pre",
+				"pre_activation\tabc"
+			],
+			[
+				"self",
+				"self.dropout\tabc"
+			],
+			[
+				"la",
+				"lambd\t(mnist.py)"
+			],
+			[
+				"No",
+				"NoReg\tabc"
+			],
+			[
+				"av",
+				"activation_output\tabc"
+			],
+			[
+				"keep",
+				"keep_prob\tabc"
+			],
+			[
+				"ac",
+				"activation_output\tabc"
+			],
+			[
+				"activ",
+				"activation_output\tabc"
+			],
+			[
+				"l2",
+				"l2_forward\t(l2_regularization.py)"
+			],
+			[
+				"l2_",
+				"l2_cost\t(l2_regularization.py)"
+			],
+			[
+				"batch",
+				"batch_size\tabc"
+			],
+			[
+				"train",
+				"train_size\tabc"
+			],
+			[
+				"shufl",
+				"shuffled_X\tabc"
+			],
+			[
+				"NO",
+				"NoReg\tabc"
+			],
+			[
+				"L",
+				"L2Regularization\t(l2_regularization.py)"
+			],
+			[
+				"ada",
+				"Adam"
+			],
+			[
+				"opti",
+				"optim\tabc"
+			],
+			[
+				"no",
+				"no_regularization\t(xor.py)"
+			],
+			[
+				"op",
+				"optimization\t(xor.py)"
+			],
+			[
+				"o",
+				"optimization\t(xor.py)"
+			],
+			[
+				"re",
+				"regularization\t(neural_network.py)"
+			],
+			[
+				"l",
+				"l2_forward\t(no_regularization.py)"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"aut",
+				"AutoDocstring: All"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Formation/Elyane"
+	],
+	"file_history":
+	[
+		"/C/Users/Formation/Elyane/mnist.py",
+		"/C/Users/Formation/Elyane/fashion_mnist.py",
+		"/C/Users/Formation/Elyane/xor.py",
+		"/C/Users/Formation/Elyane/layers/dropout_layer.py",
+		"/C/Users/Formation/Elyane/layers/fc_layer.py",
+		"/C/Users/Formation/Elyane/layers/layer.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/layers/fc_layer.py",
+		"/C/Users/Formation/Elyane/requirements.txt",
+		"/C/Users/Formation/Elyane/README.md",
+		"/C/Users/Formation/Elyane/generate-doc.sh",
+		"/C/Users/Formation/Elyane/.editorconfig",
+		"/C/Users/Formation/Elyane/.gitignore",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/layers/softmax_dropout.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/mnist.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/layers/softmax_layer.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/xor.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/layers/dropout.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/.editorconfig",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/neuralnetwork/neural_network.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/regularization/l2_regularization.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/regularization/no_regularization.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/regularization/regularization.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/fashion_mnist.py",
+		"/C/Users/Formation/AppData/Roaming/Sublime Text 3/Packages/User/AutoPep8.sublime-settings",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/optimization/adam.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/optimization/rmsprop.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/optimization/no_optim.py",
+		"/C/Users/Formation/Desktop/keras-like-nn-ezel-master/optimization/momentum.py"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.autopep8":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "elyane.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

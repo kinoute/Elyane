@@ -2,6 +2,7 @@ from neuralnetwork.neural_network import NeuralNetwork
 
 from layers.fc_layer import FCLayer
 from layers.softmax_layer import SoftmaxLayer
+from layers.dropout import DropOut
 
 from activations.tanh import TanH
 from activations.softmax import Softmax
@@ -9,6 +10,9 @@ from activations.softmax import Softmax
 from losses.multi_class_cross_entropy import MultiClassCrossEntropy
 
 from optimizers.adam import Adam
+
+from regularization.no_regularization import NoReg
+from regularization.l2_regularization import L2Regularization
 
 from utils.mnist_reader import load_mnist
 from utils.one_hot_encoding import one_hot
@@ -32,10 +36,10 @@ num_pixels = x_train.shape[0]
 
 # Create our NN structure
 net = NeuralNetwork()
-net.add(FCLayer(num_pixels, 100, activation=TanH(), optimizer=Adam()))
-net.add(FCLayer(100, 50, activation=TanH(), optimizer=Adam()))
-net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam()))
-net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam()))
+net.add(FCLayer(num_pixels, 100, activation=TanH(), optimizer=Adam(), regularization=NoReg()))
+net.add(FCLayer(100, 50, activation=TanH(), optimizer=Adam(), regularization=NoReg()))
+net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam(), regularization=NoReg()))
+net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam(), regularization=NoReg()))
 
 # train
 net.use(loss=MultiClassCrossEntropy())
