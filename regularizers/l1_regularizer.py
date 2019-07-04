@@ -1,24 +1,50 @@
+"""Summary
+"""
 import numpy as np
 from .regularizer import Regularizer
 
 
 class L1Regularizer(Regularizer):
-    """docstring for L1Regularizer"""
 
-    def __init__(self, lambd):
+    """Summary
 
-        self.l2_cost = 0
+    Attributes:
+        cost (int): Description
+        lambd (TYPE): Description
+    """
+
+    def __init__(self, lambd=0):
+        """Summary
+
+        Args:
+            lambd (int, optional): Description
+        """
+        self.cost = 0
         self.lambd = lambd
 
-    def l1_forward(self, weights):
+    def forward(self, weights):
+        """Summary
 
-        self.l1_cost += (np.sum(np.abs(weights))) * (self.lambd / 2)
+        Args:
+            weights (TYPE): Description
 
-        return self.l1_cost
+        Returns:
+            TYPE: Description
+        """
+        self.cost += (np.sum(np.abs(weights))) * (self.lambd / 2)
 
-    def l1_backward(self, weights):
+        return self.cost
 
+    def backward(self, weights):
+        """Summary
+
+        Args:
+            weights (TYPE): Description
+
+        Returns:
+            TYPE: Description
+        """
         mask_1 = (weights >= 0) * 1.0
         mask_2 = (weights < 0) * -1.0
 
-        return (self.lambd * (mask_1 + mask_2)/2
+        return (self.lambd * (mask_1 + mask_2) / 2

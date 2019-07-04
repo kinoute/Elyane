@@ -16,12 +16,12 @@ class FCLayer(Layer):
         dWeights (array): Derivative of the weights.
         input (array): The input of our layer. Can be the training set or output of the last layer.
         optimizer (object): Instance of the optimizer class picked for the network.
-        regularization(object) : Instance of the regularization class picked for the network.
+        regularizer (object) : Instance of the regularizer class picked for the network.
         pre_activation (array): Linear combinaison before the activation function.
         weights (array): The weights for this particular layer.
     """
 
-    def __init__(self, input_size, output_size, activation, optimizer, regularization):
+    def __init__(self, input_size, output_size, activation, optimizer, regularizer):
         """ Initialize our FC Layer.
 
         Args:
@@ -29,12 +29,12 @@ class FCLayer(Layer):
             output_size (int): Size of what comes out of the layer.
             activation (object): Instance of the activation function class picked for this layer.
             optimizer (object): Instance of the optimizer class picked for the neural network.
-            regularization(object) : Instance of the regularization class picked for the network.
+            regularizer (object) : Instance of the regularizer class picked for the network.
         """
 
         self.activation = activation
         self.optimizer = optimizer
-        self.regularization = regularization
+        self.regularizer = regularizer
 
         # initialization of our weights and bias
         self.weights = np.random.randn(output_size, input_size) * self.activation.heuristic(input_size)
@@ -76,7 +76,8 @@ class FCLayer(Layer):
         self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * (self.optim.for_dw(self.dWeights) + self.regularization.l2_backward(self.weights)/train_size)
+        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
+                                         + self.regularizer.backward(self.weights) / train_size)
         self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation

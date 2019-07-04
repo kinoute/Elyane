@@ -103,6 +103,7 @@ class NeuralNetwork:
         permutation = list(np.random.permutation(train_size))
         shuffled_x = x_train[:, permutation]
         shuffled_y = y_train[:, permutation]
+
         return shuffled_x, shuffled_y
 
     def get_mini_batch(self, x_train, y_train, pos, batch_size):
@@ -120,6 +121,7 @@ class NeuralNetwork:
 
         batch_x = x_train[:, pos: pos + batch_size]
         batch_y = y_train[:, pos: pos + batch_size]
+
         return batch_x, batch_y
 
     def predict(self, data):

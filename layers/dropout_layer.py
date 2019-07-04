@@ -1,6 +1,6 @@
 """ The DropOut Layer Class. """
-from .layer import Layer
 import numpy as np
+from .layer import Layer
 
 
 class DropOut(Layer):
@@ -33,10 +33,13 @@ class DropOut(Layer):
         """
 
         self.input = input_data
+
         self.dropout = np.random.rand(self.input.shape[0], self.input.shape[1])
         self.dropout = (self.dropout < self.rate)
+
         self.output = self.input * self.dropout
         self.output /= self.rate
+
         return self.output
 
     def backward_pass(self, deriv_activation, learning_rate, train_size):
@@ -54,4 +57,5 @@ class DropOut(Layer):
         self.output = deriv_activation
         self.output *= self.dropout
         self.output /= self.rate
+
         return self.output

@@ -1,17 +1,45 @@
+"""Summary
+"""
 import numpy as np
 from .regularizer import Regularizer
 
 
 class NoReg(Regularizer):
-    """docstring for NoReg"""
 
-    def __init__(self, lambd):
+    """Summary
 
-        self.l2_cost = 0
+    Attributes:
+        cost (int): Description
+        lambd (TYPE): Description
+    """
+
+    def __init__(self, lambd=0):
+        """Summary
+
+        Args:
+            lambd (int, optional): Description
+        """
+        self.cost = 0
         self.lambd = lambd
 
-    def l2_forward(self, weights):
-        return self.l2_cost
+    def forward(self, weights):
+        """Summary
 
-    def l2_backward(self, weights):
-        return self.l2_cost
+        Args:
+            weights (TYPE): Description
+
+        Returns:
+            TYPE: Description
+        """
+        return self.cost
+
+    def backward(self, weights):
+        """Summary
+
+        Args:
+            weights (TYPE): Description
+
+        Returns:
+            TYPE: Description
+        """
+        return self.cost

@@ -1,12 +1,40 @@
+"""Summary
+"""
+
 
 class Regularizer:
-    """docstring for Regularizer"""
+    """docstring for Regularizer
+    """
 
     def __init__(self, lambd):
+        """Summary
+
+        Args:
+            lambd (TYPE): Description
+
+        Returns:
+            TYPE: Description
+        """
         return NotImplementedError
 
-    def l2_forward(self, weights):
+    def forward(self, weights):
+        """Summary
+
+        Args:
+            weights (TYPE): Description
+
+        Returns:
+            TYPE: Description
+        """
         return NotImplementedError
 
-    def l2_backward(self, weights):
+    def backward(self, weights):
+        """Summary
+
+        Args:
+            weights (TYPE): Description
+
+        Returns:
+            TYPE: Description
+        """
         return NotImplementedError
