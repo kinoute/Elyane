@@ -81,7 +81,7 @@ class NeuralNetwork:
                     batch_a, weights = layer.forward_pass(batch_a)
 
                 # compute cost
-                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size) + (self.regularizer.forward(weights) / (2 * batch_size))
+                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size) + (self.regularizer.forward(weights) / batch_size)
 
                 deriv_activation = self.loss.deriv(batch_y, batch_a)
 

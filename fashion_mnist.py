@@ -42,8 +42,8 @@ net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam()))
 net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam()))
 
 # train
-net.use(loss=MultiClassCrossEntropy(), regularizer=L2Regularizer(lambd=0.7))
-net.train(x_train, y_train_enc, epochs=10, learning_rate=0.001, batch_size=256)
+net.use(loss=MultiClassCrossEntropy(), regularizer=L2Regularizer(lambd=0.1))
+net.train(x_train, y_train_enc, epochs=50, learning_rate=0.001, batch_size=256)
 
 # check training accuracy
 train_results = net.predict(x_train)

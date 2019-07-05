@@ -26,12 +26,12 @@ X, Y = create_xor_dataset(5000)
 # Create our NN structure
 net = NeuralNetwork()
 net.add(FCLayer(2, 5, activation=TanH(), optimizer=Adam()))
-net.add(DropOut(rate=0))
+#net.add(DropOut(rate=0))
 net.add(FCLayer(5, 2, activation=Sigmoid(), optimizer=Adam()))
 
 # train
-net.use(loss=CrossEntropy(), regularizer=L2Regularizer(lambd=0.7))
-net.train(X, Y, epochs=50, learning_rate=0.01, batch_size=256)
+net.use(loss=CrossEntropy(), regularizer=L2Regularizer(lambd=0))
+net.train(X, Y, epochs=500, learning_rate=0.01, batch_size=256)
 
 # training accuracy
 train_results = net.predict(X)

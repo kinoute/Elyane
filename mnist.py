@@ -45,7 +45,7 @@ net.add(DropOut(rate=0.0))
 net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam()))
 
 # train
-net.use(loss=MultiClassCrossEntropy(), regularizer=NoReg())
+net.use(loss=MultiClassCrossEntropy(), regularizer=L2Regularizer(lambd=0.2))
 net.train(x_train, y_train_enc, epochs=50, learning_rate=0.001, batch_size=256)
 
 # check training accuracy

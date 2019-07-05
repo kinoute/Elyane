@@ -76,7 +76,7 @@ class FCLayer(Layer):
 
         # update parameters
         self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
-                                         + regularizer.backward(self.weights) / train_size)
+                                         + (regularizer.backward(self.weights) / train_size))
         self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation
