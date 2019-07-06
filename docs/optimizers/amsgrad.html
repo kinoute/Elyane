@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.3" />
-<title>Elyane.optimizers.adam API documentation</title>
-<meta name="description" content="Adam Optimization without bias correction" />
+<title>Elyane.optimizers.amsgrad API documentation</title>
+<meta name="description" content="AmsGrad Optimization without bias correction" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -17,25 +17,25 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>Elyane.optimizers.adam</code></h1>
+<h1 class="title">Module <code>Elyane.optimizers.amsgrad</code></h1>
 </header>
 <section id="section-intro">
-<p>Adam Optimization without bias correction</p>
+<p>AmsGrad Optimization without bias correction</p>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">&#34;&#34;&#34; Adam Optimization without bias correction &#34;&#34;&#34;
+<pre><code class="python">&#34;&#34;&#34; AmsGrad Optimization without bias correction &#34;&#34;&#34;
 
 import numpy as np
-from .optimizer import Optimizer
+from .adam import Adam
 
 
-class Adam(Optimizer):
-    &#34;&#34;&#34; Class for the Adam Optimization algorithm.
+class AmsGrad(Adam):
+    &#34;&#34;&#34; Class for the AmsGrad Optimization algorithm.
 
-    The Adam optimizer with default values and without bias correction.
+    The AmsGrad optimizer with default values and without bias correction.
 
     Extends:
-        Optimizer
+        Adam
 
     Attributes:
         var_dw (array): Variance of the weights derivative.
@@ -47,17 +47,6 @@ class Adam(Optimizer):
         epsilon (float): A small value to avoid divide by zero errors.
     &#34;&#34;&#34;
 
-    def __init__(self):
-        &#34;&#34;&#34; Initialize the default values for the Adam Optimization &#34;&#34;&#34;
-
-        self.var_dw = 0
-        self.var_db = 0
-        self.mean_dw = 0
-        self.mean_db = 0
-        self.beta1 = 0.9
-        self.beta2 = 0.999
-        self.epsilon = 1e-8
-
     def for_dw(self, deriv_weights):
         &#34;&#34;&#34; Optimize the derivative of our weights.
 
@@ -65,38 +54,20 @@ class Adam(Optimizer):
             deriv_weights (array): Derivative of our weights.
 
         Returns:
-            array: Returns Adam-Optimized derivative of weights.
+            array: Returns AmsGrad-Optimized derivative of weights.
         &#34;&#34;&#34;
 
         # momentum and rmsprop calculation
         self.var_dw = (self.beta1 * self.var_dw) + ((1 - self.beta1) * deriv_weights)
-        self.mean_dw = (self.beta2 * self.mean_dw) + ((1 - self.beta2) * np.square(deriv_weights))
+        # correct adam convergence problem
+        meandw = (self.beta2 * self.mean_dw) + ((1 - self.beta2) * np.square(deriv_weights))
+        self.mean_dw = np.maximum(meandw, self.mean_dw)
 
         # bias correction
         # self.var_dw = self.var_dw / (1 - np.power(self.beta1, t))
         # self.mean_dw = self.mean_dw / (1 - np.power(self.beta2, t))
 
-        return self.var_dw / (np.sqrt(self.mean_dw) + self.epsilon)
-
-    def for_db(self, deriv_bias):
-        &#34;&#34;&#34; Optimize the derivative of our bias.
-
-        Args:
-            deriv_bias (array): Derivative of our bias.
-
-        Returns:
-            array: Returns Adam-Optimized derivative of bias.
-        &#34;&#34;&#34;
-
-        # momentum and rmsprop calculation
-        self.var_db = (self.beta1 * self.var_db) + ((1 - self.beta1) * deriv_bias)
-        self.mean_db = (self.beta2 * self.mean_db) + ((1 - self.beta2) * np.square(deriv_bias))
-
-        # bias correction
-        # self.var_db /= (1 - np.power(self.beta1, t))
-        # self.mean_db /= (1 - np.power(self.beta2, t))
-
-        return self.var_db / (np.sqrt(self.mean_db) + self.epsilon)</code></pre>
+        return self.var_dw / (np.sqrt(self.mean_dw) + self.epsilon)</code></pre>
 </details>
 </section>
 <section>
@@ -108,15 +79,15 @@ class Adam(Optimizer):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="Elyane.optimizers.adam.Adam"><code class="flex name class">
-<span>class <span class="ident">Adam</span></span>
+<dt id="Elyane.optimizers.amsgrad.AmsGrad"><code class="flex name class">
+<span>class <span class="ident">AmsGrad</span></span>
 </code></dt>
 <dd>
-<section class="desc"><p>Class for the Adam Optimization algorithm.</p>
-<p>The Adam optimizer with default values and without bias correction.</p>
+<section class="desc"><p>Class for the AmsGrad Optimization algorithm.</p>
+<p>The AmsGrad optimizer with default values and without bias correction.</p>
 <h2 id="extends">Extends</h2>
 <dl>
-<dt><strong><code>Optimizer</code></strong></dt>
+<dt><strong><code>Adam</code></strong></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="attributes">Attributes</h2>
@@ -139,13 +110,13 @@ class Adam(Optimizer):
 <p>Initialize the default values for the Adam Optimization</p></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">class Adam(Optimizer):
-    &#34;&#34;&#34; Class for the Adam Optimization algorithm.
+<pre><code class="python">class AmsGrad(Adam):
+    &#34;&#34;&#34; Class for the AmsGrad Optimization algorithm.
 
-    The Adam optimizer with default values and without bias correction.
+    The AmsGrad optimizer with default values and without bias correction.
 
     Extends:
-        Optimizer
+        Adam
 
     Attributes:
         var_dw (array): Variance of the weights derivative.
@@ -157,17 +128,6 @@ class Adam(Optimizer):
         epsilon (float): A small value to avoid divide by zero errors.
     &#34;&#34;&#34;
 
-    def __init__(self):
-        &#34;&#34;&#34; Initialize the default values for the Adam Optimization &#34;&#34;&#34;
-
-        self.var_dw = 0
-        self.var_db = 0
-        self.mean_dw = 0
-        self.mean_db = 0
-        self.beta1 = 0.9
-        self.beta2 = 0.999
-        self.epsilon = 1e-8
-
     def for_dw(self, deriv_weights):
         &#34;&#34;&#34; Optimize the derivative of our weights.
 
@@ -175,88 +135,29 @@ class Adam(Optimizer):
             deriv_weights (array): Derivative of our weights.
 
         Returns:
-            array: Returns Adam-Optimized derivative of weights.
+            array: Returns AmsGrad-Optimized derivative of weights.
         &#34;&#34;&#34;
 
         # momentum and rmsprop calculation
         self.var_dw = (self.beta1 * self.var_dw) + ((1 - self.beta1) * deriv_weights)
-        self.mean_dw = (self.beta2 * self.mean_dw) + ((1 - self.beta2) * np.square(deriv_weights))
+        # correct adam convergence problem
+        meandw = (self.beta2 * self.mean_dw) + ((1 - self.beta2) * np.square(deriv_weights))
+        self.mean_dw = np.maximum(meandw, self.mean_dw)
 
         # bias correction
         # self.var_dw = self.var_dw / (1 - np.power(self.beta1, t))
         # self.mean_dw = self.mean_dw / (1 - np.power(self.beta2, t))
 
-        return self.var_dw / (np.sqrt(self.mean_dw) + self.epsilon)
-
-    def for_db(self, deriv_bias):
-        &#34;&#34;&#34; Optimize the derivative of our bias.
-
-        Args:
-            deriv_bias (array): Derivative of our bias.
-
-        Returns:
-            array: Returns Adam-Optimized derivative of bias.
-        &#34;&#34;&#34;
-
-        # momentum and rmsprop calculation
-        self.var_db = (self.beta1 * self.var_db) + ((1 - self.beta1) * deriv_bias)
-        self.mean_db = (self.beta2 * self.mean_db) + ((1 - self.beta2) * np.square(deriv_bias))
-
-        # bias correction
-        # self.var_db /= (1 - np.power(self.beta1, t))
-        # self.mean_db /= (1 - np.power(self.beta2, t))
-
-        return self.var_db / (np.sqrt(self.mean_db) + self.epsilon)</code></pre>
+        return self.var_dw / (np.sqrt(self.mean_dw) + self.epsilon)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="Elyane.optimizers.adam.Adam" href="adam.html#Elyane.optimizers.adam.Adam">Adam</a></li>
 <li><a title="Elyane.optimizers.optimizer.Optimizer" href="optimizer.html#Elyane.optimizers.optimizer.Optimizer">Optimizer</a></li>
-</ul>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="Elyane.optimizers.amsgrad.AmsGrad" href="amsgrad.html#Elyane.optimizers.amsgrad.AmsGrad">AmsGrad</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="Elyane.optimizers.adam.Adam.for_db"><code class="name flex">
-<span>def <span class="ident">for_db</span></span>(<span>self, deriv_bias)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Optimize the derivative of our bias.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>deriv_bias</code></strong> :&ensp;<code>array</code></dt>
-<dd>Derivative of our bias.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><strong><code>array</code></strong></dt>
-<dd>Returns Adam-Optimized derivative of bias.</dd>
-</dl></section>
-<details class="source">
-<summary>Source code</summary>
-<pre><code class="python">def for_db(self, deriv_bias):
-    &#34;&#34;&#34; Optimize the derivative of our bias.
-
-    Args:
-        deriv_bias (array): Derivative of our bias.
-
-    Returns:
-        array: Returns Adam-Optimized derivative of bias.
-    &#34;&#34;&#34;
-
-    # momentum and rmsprop calculation
-    self.var_db = (self.beta1 * self.var_db) + ((1 - self.beta1) * deriv_bias)
-    self.mean_db = (self.beta2 * self.mean_db) + ((1 - self.beta2) * np.square(deriv_bias))
-
-    # bias correction
-    # self.var_db /= (1 - np.power(self.beta1, t))
-    # self.mean_db /= (1 - np.power(self.beta2, t))
-
-    return self.var_db / (np.sqrt(self.mean_db) + self.epsilon)</code></pre>
-</details>
-</dd>
-<dt id="Elyane.optimizers.adam.Adam.for_dw"><code class="name flex">
+<dt id="Elyane.optimizers.amsgrad.AmsGrad.for_dw"><code class="name flex">
 <span>def <span class="ident">for_dw</span></span>(<span>self, deriv_weights)</span>
 </code></dt>
 <dd>
@@ -269,7 +170,7 @@ class Adam(Optimizer):
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>array</code></strong></dt>
-<dd>Returns Adam-Optimized derivative of weights.</dd>
+<dd>Returns AmsGrad-Optimized derivative of weights.</dd>
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
@@ -280,12 +181,14 @@ class Adam(Optimizer):
         deriv_weights (array): Derivative of our weights.
 
     Returns:
-        array: Returns Adam-Optimized derivative of weights.
+        array: Returns AmsGrad-Optimized derivative of weights.
     &#34;&#34;&#34;
 
     # momentum and rmsprop calculation
     self.var_dw = (self.beta1 * self.var_dw) + ((1 - self.beta1) * deriv_weights)
-    self.mean_dw = (self.beta2 * self.mean_dw) + ((1 - self.beta2) * np.square(deriv_weights))
+    # correct adam convergence problem
+    meandw = (self.beta2 * self.mean_dw) + ((1 - self.beta2) * np.square(deriv_weights))
+    self.mean_dw = np.maximum(meandw, self.mean_dw)
 
     # bias correction
     # self.var_dw = self.var_dw / (1 - np.power(self.beta1, t))
@@ -295,6 +198,14 @@ class Adam(Optimizer):
 </details>
 </dd>
 </dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="Elyane.optimizers.adam.Adam" href="adam.html#Elyane.optimizers.adam.Adam">Adam</a></b></code>:
+<ul class="hlist">
+<li><code><a title="Elyane.optimizers.adam.Adam.for_db" href="adam.html#Elyane.optimizers.adam.Adam.for_db">for_db</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -313,10 +224,9 @@ class Adam(Optimizer):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="Elyane.optimizers.adam.Adam" href="#Elyane.optimizers.adam.Adam">Adam</a></code></h4>
+<h4><code><a title="Elyane.optimizers.amsgrad.AmsGrad" href="#Elyane.optimizers.amsgrad.AmsGrad">AmsGrad</a></code></h4>
 <ul class="">
-<li><code><a title="Elyane.optimizers.adam.Adam.for_db" href="#Elyane.optimizers.adam.Adam.for_db">for_db</a></code></li>
-<li><code><a title="Elyane.optimizers.adam.Adam.for_dw" href="#Elyane.optimizers.adam.Adam.for_dw">for_dw</a></code></li>
+<li><code><a title="Elyane.optimizers.amsgrad.AmsGrad.for_dw" href="#Elyane.optimizers.amsgrad.AmsGrad.for_dw">for_dw</a></code></li>
 </ul>
 </li>
 </ul>

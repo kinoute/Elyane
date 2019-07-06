@@ -1,38 +1,43 @@
-"""Summary
-"""
+""" The Regularizer Abstract Class / Interface """
 
 
 class Regularizer:
-    """docstring for Regularizer
+
+    """ The Regularizer Abstract Class to reduce overfitting.
+
+    Attributes:
+        lambd (float, optional): The hyper-parameter lambda for the L1 or L2 regularization.
     """
 
     def __init__(self, lambd=0):
-        """Summary
+        """ Initialize our Regularizer.
 
         Args:
-            lambd (int, optional): Description
+            lambd (float, optional): The hyper-parameter lambda for the L1 or L2 regularization.
         """
-        self.cost = 0
+
         self.lambd = lambd
 
     def forward(self, weights):
-        """Summary
+        """ The forward stage for the regularizer.
 
         Args:
-            weights (TYPE): Description
+            weights (array): The weights of our layer.
 
         Returns:
-            TYPE: Description
+            array: Returns the regularized weights of our layer to compute cost.
         """
+
         return NotImplementedError
 
     def backward(self, weights):
-        """Summary
+        """ The backward stage for the regularizer.
 
         Args:
-            weights (TYPE): Description
+            weights (array): The weights of our layer.
 
         Returns:
-            TYPE: Description
+            array: Returns the regularized weights of our layer to update parameters.
         """
+
         return NotImplementedError

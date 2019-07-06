@@ -41,12 +41,12 @@ class FCLayer(Layer):
         dWeights (array): Derivative of the weights.
         input (array): The input of our layer. Can be the training set or output of the last layer.
         optimizer (object): Instance of the optimizer class picked for the network.
-        regularization(object) : Instance of the regularization class picked for the network.
+        regularizer (object) : Instance of the regularizer class picked for the network.
         pre_activation (array): Linear combinaison before the activation function.
         weights (array): The weights for this particular layer.
     &#34;&#34;&#34;
 
-    def __init__(self, input_size, output_size, activation, optimizer, regularization):
+    def __init__(self, input_size, output_size, activation, optimizer):
         &#34;&#34;&#34; Initialize our FC Layer.
 
         Args:
@@ -54,12 +54,10 @@ class FCLayer(Layer):
             output_size (int): Size of what comes out of the layer.
             activation (object): Instance of the activation function class picked for this layer.
             optimizer (object): Instance of the optimizer class picked for the neural network.
-            regularization(object) : Instance of the regularization class picked for the network.
         &#34;&#34;&#34;
 
         self.activation = activation
         self.optimizer = optimizer
-        self.regularization = regularization
 
         # initialization of our weights and bias
         self.weights = np.random.randn(output_size, input_size) * self.activation.heuristic(input_size)
@@ -79,15 +77,16 @@ class FCLayer(Layer):
         self.pre_activation = np.dot(self.weights, self.input) + self.bias
         self.activation_output = self.activation.activ(self.pre_activation)
 
-        return self.activation_output
+        return self.activation_output, self.weights
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+    def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
         &#34;&#34;&#34; The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
             train_size (float): Number of samples in our training set. Can be equal to batch size.
+            regularizer (object) : Instance of the regularizer class picked for the network.
 
         Returns:
             array: Returns the derivative of the activation function after updating parameters.
@@ -101,7 +100,8 @@ class FCLayer(Layer):
         self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * (self.optim.for_dw(self.dWeights) + self.regularization.l2_backward(self.weights)/train_size)
+        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
+                                         + (regularizer.backward(self.weights) / train_size))
         self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation</code></pre>
@@ -118,7 +118,7 @@ class FCLayer(Layer):
 <dl>
 <dt id="Elyane.layers.fc_layer.FCLayer"><code class="flex name class">
 <span>class <span class="ident">FCLayer</span></span>
-<span>(</span><span>input_size, output_size, activation, optimizer, regularization)</span>
+<span>(</span><span>input_size, output_size, activation, optimizer)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>This class contains everything related to FC Layer.</p>
@@ -138,7 +138,7 @@ class FCLayer(Layer):
 <dd>The input of our layer. Can be the training set or output of the last layer.</dd>
 <dt><strong><code>optimizer</code></strong> :&ensp;<code>object</code></dt>
 <dd>Instance of the optimizer class picked for the network.</dd>
-<dt>regularization(object) : Instance of the regularization class picked for the network.</dt>
+<dt>regularizer (object) : Instance of the regularizer class picked for the network.</dt>
 <dt><strong><code>pre_activation</code></strong> :&ensp;<code>array</code></dt>
 <dd>Linear combinaison before the activation function.</dd>
 <dt><strong><code>weights</code></strong> :&ensp;<code>array</code></dt>
@@ -155,8 +155,7 @@ class FCLayer(Layer):
 <dd>Instance of the activation function class picked for this layer.</dd>
 <dt><strong><code>optimizer</code></strong> :&ensp;<code>object</code></dt>
 <dd>Instance of the optimizer class picked for the neural network.</dd>
-</dl>
-<p>regularization(object) : Instance of the regularization class picked for the network.</p></section>
+</dl></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">class FCLayer(Layer):
@@ -171,12 +170,12 @@ class FCLayer(Layer):
         dWeights (array): Derivative of the weights.
         input (array): The input of our layer. Can be the training set or output of the last layer.
         optimizer (object): Instance of the optimizer class picked for the network.
-        regularization(object) : Instance of the regularization class picked for the network.
+        regularizer (object) : Instance of the regularizer class picked for the network.
         pre_activation (array): Linear combinaison before the activation function.
         weights (array): The weights for this particular layer.
     &#34;&#34;&#34;
 
-    def __init__(self, input_size, output_size, activation, optimizer, regularization):
+    def __init__(self, input_size, output_size, activation, optimizer):
         &#34;&#34;&#34; Initialize our FC Layer.
 
         Args:
@@ -184,12 +183,10 @@ class FCLayer(Layer):
             output_size (int): Size of what comes out of the layer.
             activation (object): Instance of the activation function class picked for this layer.
             optimizer (object): Instance of the optimizer class picked for the neural network.
-            regularization(object) : Instance of the regularization class picked for the network.
         &#34;&#34;&#34;
 
         self.activation = activation
         self.optimizer = optimizer
-        self.regularization = regularization
 
         # initialization of our weights and bias
         self.weights = np.random.randn(output_size, input_size) * self.activation.heuristic(input_size)
@@ -209,15 +206,16 @@ class FCLayer(Layer):
         self.pre_activation = np.dot(self.weights, self.input) + self.bias
         self.activation_output = self.activation.activ(self.pre_activation)
 
-        return self.activation_output
+        return self.activation_output, self.weights
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+    def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
         &#34;&#34;&#34; The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
             train_size (float): Number of samples in our training set. Can be equal to batch size.
+            regularizer (object) : Instance of the regularizer class picked for the network.
 
         Returns:
             array: Returns the derivative of the activation function after updating parameters.
@@ -231,7 +229,8 @@ class FCLayer(Layer):
         self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * (self.optim.for_dw(self.dWeights) + self.regularization.l2_backward(self.weights)/train_size)
+        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
+                                         + (regularizer.backward(self.weights) / train_size))
         self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation</code></pre>
@@ -247,7 +246,7 @@ class FCLayer(Layer):
 <h3>Methods</h3>
 <dl>
 <dt id="Elyane.layers.fc_layer.FCLayer.backward_pass"><code class="name flex">
-<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size)</span>
+<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size, regularizer)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The backward propagation features for the layer.</p>
@@ -260,6 +259,7 @@ class FCLayer(Layer):
 <dt><strong><code>train_size</code></strong> :&ensp;<code>float</code></dt>
 <dd>Number of samples in our training set. Can be equal to batch size.</dd>
 </dl>
+<p>regularizer (object) : Instance of the regularizer class picked for the network.</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>array</code></strong></dt>
@@ -267,13 +267,14 @@ class FCLayer(Layer):
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size):
+<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
     &#34;&#34;&#34; The backward propagation features for the layer.
 
     Args:
         deriv_activation (array): The Gradient of our loss function.
         learning_rate (float): The learning rate of the neural network.
         train_size (float): Number of samples in our training set. Can be equal to batch size.
+        regularizer (object) : Instance of the regularizer class picked for the network.
 
     Returns:
         array: Returns the derivative of the activation function after updating parameters.
@@ -287,7 +288,8 @@ class FCLayer(Layer):
     self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
     # update parameters
-    self.weights -= learning_rate * (self.optim.for_dw(self.dWeights) + self.regularization.l2_backward(self.weights)/train_size)
+    self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
+                                     + (regularizer.backward(self.weights) / train_size))
     self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
     return deriv_activation</code></pre>
@@ -325,7 +327,7 @@ ouput of the last layer.</dd>
     self.pre_activation = np.dot(self.weights, self.input) + self.bias
     self.activation_output = self.activation.activ(self.pre_activation)
 
-    return self.activation_output</code></pre>
+    return self.activation_output, self.weights</code></pre>
 </details>
 </dd>
 </dl>

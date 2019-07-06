@@ -37,13 +37,14 @@ class SoftmaxLayer(FCLayer):
         deriv_weights (array): The derivative of our weights.
     &#34;&#34;&#34;
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+    def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
         &#34;&#34;&#34; The backward propagation for the softmax layer.
 
         Args:
             deriv_activation (array): The derivative of our activation function.
             learning_rate (float): The learning rate of our neural network.
             train_size (int): The number of examples of the training set.
+            regularizer (object) : Instance of the regularizer class picked for the network.
 
         Returns:
             array: The derivative of the activation function
@@ -57,7 +58,8 @@ class SoftmaxLayer(FCLayer):
         self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights))
+        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
+                                         + regularizer.backward(self.weights) / train_size)
         self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation</code></pre>
@@ -74,7 +76,7 @@ class SoftmaxLayer(FCLayer):
 <dl>
 <dt id="Elyane.layers.softmax_layer.SoftmaxLayer"><code class="flex name class">
 <span>class <span class="ident">SoftmaxLayer</span></span>
-<span>(</span><span>input_size, output_size, activation, optimizer, regularization)</span>
+<span>(</span><span>input_size, output_size, activation, optimizer)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The SoftMax Layer Class lets us configure the backward specially for this type of activation.</p>
@@ -96,8 +98,7 @@ class SoftmaxLayer(FCLayer):
 <dd>Instance of the activation function class picked for this layer.</dd>
 <dt><strong><code>optimizer</code></strong> :&ensp;<code>object</code></dt>
 <dd>Instance of the optimizer class picked for the neural network.</dd>
-</dl>
-<p>regularization(object) : Instance of the regularization class picked for the network.</p></section>
+</dl></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">class SoftmaxLayer(FCLayer):
@@ -109,13 +110,14 @@ class SoftmaxLayer(FCLayer):
         deriv_weights (array): The derivative of our weights.
     &#34;&#34;&#34;
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+    def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
         &#34;&#34;&#34; The backward propagation for the softmax layer.
 
         Args:
             deriv_activation (array): The derivative of our activation function.
             learning_rate (float): The learning rate of our neural network.
             train_size (int): The number of examples of the training set.
+            regularizer (object) : Instance of the regularizer class picked for the network.
 
         Returns:
             array: The derivative of the activation function
@@ -129,7 +131,8 @@ class SoftmaxLayer(FCLayer):
         self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
         # update parameters
-        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights))
+        self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
+                                         + regularizer.backward(self.weights) / train_size)
         self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
         return deriv_activation</code></pre>
@@ -142,7 +145,7 @@ class SoftmaxLayer(FCLayer):
 <h3>Methods</h3>
 <dl>
 <dt id="Elyane.layers.softmax_layer.SoftmaxLayer.backward_pass"><code class="name flex">
-<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size)</span>
+<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size, regularizer)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The backward propagation for the softmax layer.</p>
@@ -155,6 +158,7 @@ class SoftmaxLayer(FCLayer):
 <dt><strong><code>train_size</code></strong> :&ensp;<code>int</code></dt>
 <dd>The number of examples of the training set.</dd>
 </dl>
+<p>regularizer (object) : Instance of the regularizer class picked for the network.</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>array</code></strong></dt>
@@ -162,13 +166,14 @@ class SoftmaxLayer(FCLayer):
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size):
+<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
     &#34;&#34;&#34; The backward propagation for the softmax layer.
 
     Args:
         deriv_activation (array): The derivative of our activation function.
         learning_rate (float): The learning rate of our neural network.
         train_size (int): The number of examples of the training set.
+        regularizer (object) : Instance of the regularizer class picked for the network.
 
     Returns:
         array: The derivative of the activation function
@@ -182,7 +187,8 @@ class SoftmaxLayer(FCLayer):
     self.deriv_bias = np.sum(deriv_pre_activation, axis=1, keepdims=True) / train_size
 
     # update parameters
-    self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights))
+    self.weights -= learning_rate * (self.optimizer.for_dw(self.deriv_weights)
+                                     + regularizer.backward(self.weights) / train_size)
     self.bias -= learning_rate * self.optimizer.for_db(self.deriv_bias)
 
     return deriv_activation</code></pre>

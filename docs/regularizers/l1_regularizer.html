@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.3" />
-<title>Elyane.losses.loss API documentation</title>
-<meta name="description" content="Abstract Class / Interface of our losses functions" />
+<title>Elyane.regularizers.l1_regularizer API documentation</title>
+<meta name="description" content="The L1 Regularization Class" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -17,35 +17,51 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>Elyane.losses.loss</code></h1>
+<h1 class="title">Module <code>Elyane.regularizers.l1_regularizer</code></h1>
 </header>
 <section id="section-intro">
-<p>Abstract Class / Interface of our losses functions</p>
+<p>The L1 Regularization Class</p>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">&#34;&#34;&#34; Abstract Class / Interface of our losses functions  &#34;&#34;&#34;
+<pre><code class="python">&#34;&#34;&#34; The L1 Regularization Class &#34;&#34;&#34;
+import numpy as np
+from .regularizer import Regularizer
 
 
-class Loss:
-    &#34;&#34;&#34; This class contains the needed functions for our classes &#34;&#34;&#34;
+class L1Regularizer(Regularizer):
 
-    def fct(self, labels, preds):
-        &#34;&#34;&#34; Every loss class sould have a fct method.
+    &#34;&#34;&#34; The L1 Regularizer Class to reduce overfitting.
 
-        Raises:
-            NotImplementedError: Description
+    Attributes:
+        lambd (float, optional): The hyper-parameter lambda for the L1 or L2 regularization.
+    &#34;&#34;&#34;
+
+    def forward(self, weights):
+        &#34;&#34;&#34; The forward stage for the L1 regularization.
+
+        Args:
+            weights (array): The weights of our layer.
+
+        Returns:
+            array: Returns the regularized weights of our layer to compute cost.
         &#34;&#34;&#34;
 
-        raise NotImplementedError
+        return (np.sum(np.abs(weights))) * (self.lambd / 2)
 
-    def deriv(self, labels, preds):
-        &#34;&#34;&#34; Every loss class should have a derivative method.
+    def backward(self, weights):
+        &#34;&#34;&#34; The backward stage for the L1 regularization.
 
-        Raises:
-            NotImplementedError: Description
+        Args:
+            weights (array): The weights of our layer.
+
+        Returns:
+            array: Returns the regularized weights of our layer to update parameters.
         &#34;&#34;&#34;
 
-        raise NotImplementedError</code></pre>
+        mask_1 = (weights &gt;= 0) * 1.0
+        mask_2 = (weights &lt; 0) * -1.0
+
+        return (self.lambd * (mask_1 + mask_2)) / 2</code></pre>
 </details>
 </section>
 <section>
@@ -57,86 +73,127 @@ class Loss:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="Elyane.losses.loss.Loss"><code class="flex name class">
-<span>class <span class="ident">Loss</span></span>
-<span>(</span><span>*args, **kwargs)</span>
+<dt id="Elyane.regularizers.l1_regularizer.L1Regularizer"><code class="flex name class">
+<span>class <span class="ident">L1Regularizer</span></span>
+<span>(</span><span>lambd=0)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This class contains the needed functions for our classes</p></section>
+<section class="desc"><p>The L1 Regularizer Class to reduce overfitting.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>lambd</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>The hyper-parameter lambda for the L1 or L2 regularization.</dd>
+</dl>
+<p>Initialize our Regularizer.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>lambd</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>The hyper-parameter lambda for the L1 or L2 regularization.</dd>
+</dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">class Loss:
-    &#34;&#34;&#34; This class contains the needed functions for our classes &#34;&#34;&#34;
+<pre><code class="python">class L1Regularizer(Regularizer):
 
-    def fct(self, labels, preds):
-        &#34;&#34;&#34; Every loss class sould have a fct method.
+    &#34;&#34;&#34; The L1 Regularizer Class to reduce overfitting.
 
-        Raises:
-            NotImplementedError: Description
+    Attributes:
+        lambd (float, optional): The hyper-parameter lambda for the L1 or L2 regularization.
+    &#34;&#34;&#34;
+
+    def forward(self, weights):
+        &#34;&#34;&#34; The forward stage for the L1 regularization.
+
+        Args:
+            weights (array): The weights of our layer.
+
+        Returns:
+            array: Returns the regularized weights of our layer to compute cost.
         &#34;&#34;&#34;
 
-        raise NotImplementedError
+        return (np.sum(np.abs(weights))) * (self.lambd / 2)
 
-    def deriv(self, labels, preds):
-        &#34;&#34;&#34; Every loss class should have a derivative method.
+    def backward(self, weights):
+        &#34;&#34;&#34; The backward stage for the L1 regularization.
 
-        Raises:
-            NotImplementedError: Description
+        Args:
+            weights (array): The weights of our layer.
+
+        Returns:
+            array: Returns the regularized weights of our layer to update parameters.
         &#34;&#34;&#34;
 
-        raise NotImplementedError</code></pre>
+        mask_1 = (weights &gt;= 0) * 1.0
+        mask_2 = (weights &lt; 0) * -1.0
+
+        return (self.lambd * (mask_1 + mask_2)) / 2</code></pre>
 </details>
-<h3>Subclasses</h3>
+<h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="Elyane.losses.cross_entropy.CrossEntropy" href="cross_entropy.html#Elyane.losses.cross_entropy.CrossEntropy">CrossEntropy</a></li>
-<li><a title="Elyane.losses.mae.MAE" href="mae.html#Elyane.losses.mae.MAE">MAE</a></li>
-<li><a title="Elyane.losses.mse.MSE" href="mse.html#Elyane.losses.mse.MSE">MSE</a></li>
-<li><a title="Elyane.losses.multi_class_cross_entropy.MultiClassCrossEntropy" href="multi_class_cross_entropy.html#Elyane.losses.multi_class_cross_entropy.MultiClassCrossEntropy">MultiClassCrossEntropy</a></li>
+<li><a title="Elyane.regularizers.regularizer.Regularizer" href="regularizer.html#Elyane.regularizers.regularizer.Regularizer">Regularizer</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="Elyane.losses.loss.Loss.deriv"><code class="name flex">
-<span>def <span class="ident">deriv</span></span>(<span>self, labels, preds)</span>
+<dt id="Elyane.regularizers.l1_regularizer.L1Regularizer.backward"><code class="name flex">
+<span>def <span class="ident">backward</span></span>(<span>self, weights)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Every loss class should have a derivative method.</p>
-<h2 id="raises">Raises</h2>
+<section class="desc"><p>The backward stage for the L1 regularization.</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>NotImplementedError</code></strong></dt>
-<dd>Description</dd>
+<dt><strong><code>weights</code></strong> :&ensp;<code>array</code></dt>
+<dd>The weights of our layer.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>array</code></strong></dt>
+<dd>Returns the regularized weights of our layer to update parameters.</dd>
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def deriv(self, labels, preds):
-    &#34;&#34;&#34; Every loss class should have a derivative method.
+<pre><code class="python">def backward(self, weights):
+    &#34;&#34;&#34; The backward stage for the L1 regularization.
 
-    Raises:
-        NotImplementedError: Description
+    Args:
+        weights (array): The weights of our layer.
+
+    Returns:
+        array: Returns the regularized weights of our layer to update parameters.
     &#34;&#34;&#34;
 
-    raise NotImplementedError</code></pre>
+    mask_1 = (weights &gt;= 0) * 1.0
+    mask_2 = (weights &lt; 0) * -1.0
+
+    return (self.lambd * (mask_1 + mask_2)) / 2</code></pre>
 </details>
 </dd>
-<dt id="Elyane.losses.loss.Loss.fct"><code class="name flex">
-<span>def <span class="ident">fct</span></span>(<span>self, labels, preds)</span>
+<dt id="Elyane.regularizers.l1_regularizer.L1Regularizer.forward"><code class="name flex">
+<span>def <span class="ident">forward</span></span>(<span>self, weights)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Every loss class sould have a fct method.</p>
-<h2 id="raises">Raises</h2>
+<section class="desc"><p>The forward stage for the L1 regularization.</p>
+<h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>NotImplementedError</code></strong></dt>
-<dd>Description</dd>
+<dt><strong><code>weights</code></strong> :&ensp;<code>array</code></dt>
+<dd>The weights of our layer.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>array</code></strong></dt>
+<dd>Returns the regularized weights of our layer to compute cost.</dd>
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def fct(self, labels, preds):
-    &#34;&#34;&#34; Every loss class sould have a fct method.
+<pre><code class="python">def forward(self, weights):
+    &#34;&#34;&#34; The forward stage for the L1 regularization.
 
-    Raises:
-        NotImplementedError: Description
+    Args:
+        weights (array): The weights of our layer.
+
+    Returns:
+        array: Returns the regularized weights of our layer to compute cost.
     &#34;&#34;&#34;
 
-    raise NotImplementedError</code></pre>
+    return (np.sum(np.abs(weights))) * (self.lambd / 2)</code></pre>
 </details>
 </dd>
 </dl>
@@ -152,16 +209,16 @@ class Loss:
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="Elyane.losses" href="index.html">Elyane.losses</a></code></li>
+<li><code><a title="Elyane.regularizers" href="index.html">Elyane.regularizers</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="Elyane.losses.loss.Loss" href="#Elyane.losses.loss.Loss">Loss</a></code></h4>
+<h4><code><a title="Elyane.regularizers.l1_regularizer.L1Regularizer" href="#Elyane.regularizers.l1_regularizer.L1Regularizer">L1Regularizer</a></code></h4>
 <ul class="">
-<li><code><a title="Elyane.losses.loss.Loss.deriv" href="#Elyane.losses.loss.Loss.deriv">deriv</a></code></li>
-<li><code><a title="Elyane.losses.loss.Loss.fct" href="#Elyane.losses.loss.Loss.fct">fct</a></code></li>
+<li><code><a title="Elyane.regularizers.l1_regularizer.L1Regularizer.backward" href="#Elyane.regularizers.l1_regularizer.L1Regularizer.backward">backward</a></code></li>
+<li><code><a title="Elyane.regularizers.l1_regularizer.L1Regularizer.forward" href="#Elyane.regularizers.l1_regularizer.L1Regularizer.forward">forward</a></code></li>
 </ul>
 </li>
 </ul>

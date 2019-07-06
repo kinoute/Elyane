@@ -14,7 +14,7 @@ class Loss:
         raise NotImplementedError
 
     def deriv(self, labels, preds):
-        """every loss class should have a derivative method.
+        """ Every loss class should have a derivative method.
 
         Raises:
             NotImplementedError: Description

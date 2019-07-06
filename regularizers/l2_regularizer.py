@@ -8,32 +8,29 @@ class L2Regularizer(Regularizer):
     """ The L2 Regularization class to reduce overfitting.
 
     Attributes:
-        cost (int): Description
-        lambd (float): The hyper parameter for the L2 Regularization.
+        lambd (float, optional): The hyper-parameter lambda for the L1 or L2 regularization.
     """
 
     def forward(self, weights):
-        """Summary
+        """ The forward stage for the L2 regularization.
 
         Args:
-            weights (TYPE): Description
+            weights (array): The weights of our layer.
 
         Returns:
-            TYPE: Description
+            array: Returns the regularized weights of our layer to compute cost.
         """
 
         return (np.sum(np.square(weights))) * (self.lambd / 2)
 
-        return self.cost
-
     def backward(self, weights):
-        """Summary
+        """ The backward stage for the L2 regularization.
 
         Args:
-            weights (TYPE): Description
+            weights (array): The weights of our layer.
 
         Returns:
-            TYPE: Description
+            array: Returns the regularized weights of our layer to update parameters.
         """
 
         return self.lambd * weights

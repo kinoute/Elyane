@@ -1,36 +1,35 @@
-"""Summary
-"""
+""" The No Regularizer Class when no regularizer is picked by the user """
 import numpy as np
 from .regularizer import Regularizer
 
 
 class NoReg(Regularizer):
 
-    """Summary
+    """ The NoReg class is called when no Regularizer is defined.
 
     Attributes:
-        cost (int): Description
-        lambd (TYPE): Description
+        lambd (float, optional): The hyper-parameter lambda for the L1 or L2 regularization.
     """
 
     def forward(self, weights):
-        """Summary
+        """ The forward stage for the regularizer. Here, we return zero as there is no regularizer.
 
         Args:
-            weights (TYPE): Description
+            weights (array): The weights of our layer.
 
         Returns:
-            TYPE: Description
+            int: Returns 0 to cancel any regularization work.
         """
-        return self.cost
+
+        return 0
 
     def backward(self, weights):
-        """Summary
-
+        """ The backward stage for the regularizer. Here we return zero as there is no regularizer picked by the user.
         Args:
-            weights (TYPE): Description
+            weights (array): The weights of our layer.
 
         Returns:
-            TYPE: Description
+            int: Returns 0 to cancel any regularization formula.
         """
-        return self.cost
+
+        return 0

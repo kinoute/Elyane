@@ -17,11 +17,8 @@ find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 
 echo 'Moving the documentation to the correct folder...'
 
-cd docs/Elyane
-mv * ../
-cd ..
-rm -rf Elyane
-cd ..
+mv docs/Elyane/* docs/
+rm -rf docs/Elyane
 
 echo "Renaming back the python files to the correct format..."
 

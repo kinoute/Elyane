@@ -41,6 +41,7 @@ class NeuralNetwork:
 
         self.layers = []
         self.loss = None
+        self.regularizer = None
 
     def add(self, layer):
         &#34;&#34;&#34; Adds a layer to our neural network&#39;s structure.
@@ -51,7 +52,7 @@ class NeuralNetwork:
 
         self.layers.append(layer)
 
-    def use(self, loss):
+    def use(self, loss, regularizer):
         &#34;&#34;&#34; Defines the loss function that will be used for the entire neural network.
 
         Args:
@@ -59,6 +60,7 @@ class NeuralNetwork:
         &#34;&#34;&#34;
 
         self.loss = loss
+        self.regularizer = regularizer
 
     def cost(self, loss, size):
         &#34;&#34;&#34; The cost function formula to check the training status.
@@ -84,7 +86,7 @@ class NeuralNetwork:
             batch_size (int, optional): size of each mini-batch. Default: 128.
         &#34;&#34;&#34;
 
-        # Number of samples in our training set
+        # Number of samples in the entire training set
         train_size = x_train.shape[1]
 
         for i in range(1, epochs + 1):
@@ -98,18 +100,21 @@ class NeuralNetwork:
                 # get the (next) mini_batch
                 batch_a, batch_y = self.get_mini_batch(shuffled_x, shuffled_y, batch, batch_size)
 
-                # Forward Propagation
+                # forward propagation
                 for layer in self.layers:
-                    batch_a = layer.forward_pass(batch_a)
+                    batch_a, weights = layer.forward_pass(batch_a)
 
                 # compute cost
-                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size)
+                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size) + (self.regularizer.forward(weights) / batch_size)
 
                 deriv_activation = self.loss.deriv(batch_y, batch_a)
 
-                # Backward propagation
+                # backward propagation
                 for layer in reversed(self.layers):
-                    deriv_activation = layer.backward_pass(deriv_activation, learning_rate, batch_size)
+                    deriv_activation = layer.backward_pass(deriv_activation,
+                                                           learning_rate,
+                                                           batch_size,
+                                                           self.regularizer)
 
             print(&#34;cost after&#34;, i, &#34;iterations:&#34;, cost)
 
@@ -128,6 +133,7 @@ class NeuralNetwork:
         permutation = list(np.random.permutation(train_size))
         shuffled_x = x_train[:, permutation]
         shuffled_y = y_train[:, permutation]
+
         return shuffled_x, shuffled_y
 
     def get_mini_batch(self, x_train, y_train, pos, batch_size):
@@ -145,6 +151,7 @@ class NeuralNetwork:
 
         batch_x = x_train[:, pos: pos + batch_size]
         batch_y = y_train[:, pos: pos + batch_size]
+
         return batch_x, batch_y
 
     def predict(self, data):
@@ -157,12 +164,12 @@ class NeuralNetwork:
             array: Returns the prediction of our neural network for the given datas.
         &#34;&#34;&#34;
 
-        activ = data
+        activation = data
 
         for layer in self.layers:
-            activ = layer.forward_pass(activ)
+            activation, _ = layer.forward_pass(activation)
 
-        return activ</code></pre>
+        return activation</code></pre>
 </details>
 </section>
 <section>
@@ -203,6 +210,7 @@ class NeuralNetwork:
 
         self.layers = []
         self.loss = None
+        self.regularizer = None
 
     def add(self, layer):
         &#34;&#34;&#34; Adds a layer to our neural network&#39;s structure.
@@ -213,7 +221,7 @@ class NeuralNetwork:
 
         self.layers.append(layer)
 
-    def use(self, loss):
+    def use(self, loss, regularizer):
         &#34;&#34;&#34; Defines the loss function that will be used for the entire neural network.
 
         Args:
@@ -221,6 +229,7 @@ class NeuralNetwork:
         &#34;&#34;&#34;
 
         self.loss = loss
+        self.regularizer = regularizer
 
     def cost(self, loss, size):
         &#34;&#34;&#34; The cost function formula to check the training status.
@@ -246,7 +255,7 @@ class NeuralNetwork:
             batch_size (int, optional): size of each mini-batch. Default: 128.
         &#34;&#34;&#34;
 
-        # Number of samples in our training set
+        # Number of samples in the entire training set
         train_size = x_train.shape[1]
 
         for i in range(1, epochs + 1):
@@ -260,18 +269,21 @@ class NeuralNetwork:
                 # get the (next) mini_batch
                 batch_a, batch_y = self.get_mini_batch(shuffled_x, shuffled_y, batch, batch_size)
 
-                # Forward Propagation
+                # forward propagation
                 for layer in self.layers:
-                    batch_a = layer.forward_pass(batch_a)
+                    batch_a, weights = layer.forward_pass(batch_a)
 
                 # compute cost
-                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size)
+                cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size) + (self.regularizer.forward(weights) / batch_size)
 
                 deriv_activation = self.loss.deriv(batch_y, batch_a)
 
-                # Backward propagation
+                # backward propagation
                 for layer in reversed(self.layers):
-                    deriv_activation = layer.backward_pass(deriv_activation, learning_rate, batch_size)
+                    deriv_activation = layer.backward_pass(deriv_activation,
+                                                           learning_rate,
+                                                           batch_size,
+                                                           self.regularizer)
 
             print(&#34;cost after&#34;, i, &#34;iterations:&#34;, cost)
 
@@ -290,6 +302,7 @@ class NeuralNetwork:
         permutation = list(np.random.permutation(train_size))
         shuffled_x = x_train[:, permutation]
         shuffled_y = y_train[:, permutation]
+
         return shuffled_x, shuffled_y
 
     def get_mini_batch(self, x_train, y_train, pos, batch_size):
@@ -307,6 +320,7 @@ class NeuralNetwork:
 
         batch_x = x_train[:, pos: pos + batch_size]
         batch_y = y_train[:, pos: pos + batch_size]
+
         return batch_x, batch_y
 
     def predict(self, data):
@@ -319,12 +333,12 @@ class NeuralNetwork:
             array: Returns the prediction of our neural network for the given datas.
         &#34;&#34;&#34;
 
-        activ = data
+        activation = data
 
         for layer in self.layers:
-            activ = layer.forward_pass(activ)
+            activation, _ = layer.forward_pass(activation)
 
-        return activ</code></pre>
+        return activation</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -421,6 +435,7 @@ class NeuralNetwork:
 
     batch_x = x_train[:, pos: pos + batch_size]
     batch_y = y_train[:, pos: pos + batch_size]
+
     return batch_x, batch_y</code></pre>
 </details>
 </dd>
@@ -451,12 +466,12 @@ class NeuralNetwork:
         array: Returns the prediction of our neural network for the given datas.
     &#34;&#34;&#34;
 
-    activ = data
+    activation = data
 
     for layer in self.layers:
-        activ = layer.forward_pass(activ)
+        activation, _ = layer.forward_pass(activation)
 
-    return activ</code></pre>
+    return activation</code></pre>
 </details>
 </dd>
 <dt id="Elyane.neuralnetwork.neural_network.NeuralNetwork.shuffle_dataset"><code class="name flex">
@@ -495,6 +510,7 @@ class NeuralNetwork:
     permutation = list(np.random.permutation(train_size))
     shuffled_x = x_train[:, permutation]
     shuffled_y = y_train[:, permutation]
+
     return shuffled_x, shuffled_y</code></pre>
 </details>
 </dd>
@@ -529,7 +545,7 @@ class NeuralNetwork:
         batch_size (int, optional): size of each mini-batch. Default: 128.
     &#34;&#34;&#34;
 
-    # Number of samples in our training set
+    # Number of samples in the entire training set
     train_size = x_train.shape[1]
 
     for i in range(1, epochs + 1):
@@ -543,24 +559,27 @@ class NeuralNetwork:
             # get the (next) mini_batch
             batch_a, batch_y = self.get_mini_batch(shuffled_x, shuffled_y, batch, batch_size)
 
-            # Forward Propagation
+            # forward propagation
             for layer in self.layers:
-                batch_a = layer.forward_pass(batch_a)
+                batch_a, weights = layer.forward_pass(batch_a)
 
             # compute cost
-            cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size)
+            cost = self.cost(self.loss.fct(batch_y, batch_a), batch_size) + (self.regularizer.forward(weights) / batch_size)
 
             deriv_activation = self.loss.deriv(batch_y, batch_a)
 
-            # Backward propagation
+            # backward propagation
             for layer in reversed(self.layers):
-                deriv_activation = layer.backward_pass(deriv_activation, learning_rate, batch_size)
+                deriv_activation = layer.backward_pass(deriv_activation,
+                                                       learning_rate,
+                                                       batch_size,
+                                                       self.regularizer)
 
         print(&#34;cost after&#34;, i, &#34;iterations:&#34;, cost)</code></pre>
 </details>
 </dd>
 <dt id="Elyane.neuralnetwork.neural_network.NeuralNetwork.use"><code class="name flex">
-<span>def <span class="ident">use</span></span>(<span>self, loss)</span>
+<span>def <span class="ident">use</span></span>(<span>self, loss, regularizer)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Defines the loss function that will be used for the entire neural network.</p>
@@ -571,14 +590,15 @@ class NeuralNetwork:
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def use(self, loss):
+<pre><code class="python">def use(self, loss, regularizer):
     &#34;&#34;&#34; Defines the loss function that will be used for the entire neural network.
 
     Args:
         loss (object): Instance of the picked loss function class.
     &#34;&#34;&#34;
 
-    self.loss = loss</code></pre>
+    self.loss = loss
+    self.regularizer = regularizer</code></pre>
 </details>
 </dd>
 </dl>

@@ -2,7 +2,6 @@ from neuralnetwork.neural_network import NeuralNetwork
 
 from layers.fc_layer import FCLayer
 from layers.softmax_layer import SoftmaxLayer
-from layers.dropout_layer import DropOut
 
 from activations.tanh import TanH
 from activations.softmax import Softmax
@@ -11,7 +10,6 @@ from losses.multi_class_cross_entropy import MultiClassCrossEntropy
 
 from optimizers.adam import Adam
 
-from regularizers.no_regularizer import NoReg
 from regularizers.l2_regularizer import L2Regularizer
 
 from utils.mnist_reader import load_mnist
@@ -42,7 +40,7 @@ net.add(FCLayer(50, 25, activation=TanH(), optimizer=Adam()))
 net.add(SoftmaxLayer(25, num_classes, activation=Softmax(), optimizer=Adam()))
 
 # train
-net.use(loss=MultiClassCrossEntropy(), regularizer=L2Regularizer(lambd=0.1))
+net.use(loss=MultiClassCrossEntropy(), regularizer=L2Regularizer(lambd=0.01))
 net.train(x_train, y_train_enc, epochs=50, learning_rate=0.001, batch_size=256)
 
 # check training accuracy

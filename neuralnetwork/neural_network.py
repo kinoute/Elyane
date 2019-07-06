@@ -17,7 +17,6 @@ class NeuralNetwork:
         self.layers = []
         self.loss = None
         self.regularizer = None
-        self.weights = 0
 
     def add(self, layer):
         """ Adds a layer to our neural network's structure.
@@ -140,9 +139,9 @@ class NeuralNetwork:
             array: Returns the prediction of our neural network for the given datas.
         """
 
-        activ = data
+        activation = data
 
         for layer in self.layers:
-            activ, _ = layer.forward_pass(activ)
+            activation, _ = layer.forward_pass(activation)
 
-        return activ
+        return activation

@@ -24,8 +24,8 @@
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">&#34;&#34;&#34; The DropOut Layer Class. &#34;&#34;&#34;
-from .layer import Layer
 import numpy as np
+from .layer import Layer
 
 
 class DropOut(Layer):
@@ -42,7 +42,7 @@ class DropOut(Layer):
         &#34;&#34;&#34; Initialisation for the dropout layer.
 
         Args:
-            rate (float): The probability given by the user to drop hidden-units in the previous layer. 
+            rate (float): The probability given by the user to drop hidden-units in the previous layer.
         &#34;&#34;&#34;
 
         self.rate = 1 - rate
@@ -58,19 +58,23 @@ class DropOut(Layer):
         &#34;&#34;&#34;
 
         self.input = input_data
+
         self.dropout = np.random.rand(self.input.shape[0], self.input.shape[1])
         self.dropout = (self.dropout &lt; self.rate)
+
         self.output = self.input * self.dropout
         self.output /= self.rate
-        return self.output
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        return self.output, None
+
+    def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
         &#34;&#34;&#34; The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
             train_size (float): Number of samples in our training set. Can be equal to batch size.
+            regularizer (object) : Instance of the regularizer class picked for the network.
 
         Returns:
             output (array): Masked state of the deriv_activation for backward propagation.
@@ -79,6 +83,7 @@ class DropOut(Layer):
         self.output = deriv_activation
         self.output *= self.dropout
         self.output /= self.rate
+
         return self.output</code></pre>
 </details>
 </section>
@@ -130,7 +135,7 @@ class DropOut(Layer):
         &#34;&#34;&#34; Initialisation for the dropout layer.
 
         Args:
-            rate (float): The probability given by the user to drop hidden-units in the previous layer. 
+            rate (float): The probability given by the user to drop hidden-units in the previous layer.
         &#34;&#34;&#34;
 
         self.rate = 1 - rate
@@ -146,19 +151,23 @@ class DropOut(Layer):
         &#34;&#34;&#34;
 
         self.input = input_data
+
         self.dropout = np.random.rand(self.input.shape[0], self.input.shape[1])
         self.dropout = (self.dropout &lt; self.rate)
+
         self.output = self.input * self.dropout
         self.output /= self.rate
-        return self.output
 
-    def backward_pass(self, deriv_activation, learning_rate, train_size):
+        return self.output, None
+
+    def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
         &#34;&#34;&#34; The backward propagation features for the layer.
 
         Args:
             deriv_activation (array): The Gradient of our loss function.
             learning_rate (float): The learning rate of the neural network.
             train_size (float): Number of samples in our training set. Can be equal to batch size.
+            regularizer (object) : Instance of the regularizer class picked for the network.
 
         Returns:
             output (array): Masked state of the deriv_activation for backward propagation.
@@ -167,6 +176,7 @@ class DropOut(Layer):
         self.output = deriv_activation
         self.output *= self.dropout
         self.output /= self.rate
+
         return self.output</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -176,7 +186,7 @@ class DropOut(Layer):
 <h3>Methods</h3>
 <dl>
 <dt id="Elyane.layers.dropout_layer.DropOut.backward_pass"><code class="name flex">
-<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size)</span>
+<span>def <span class="ident">backward_pass</span></span>(<span>self, deriv_activation, learning_rate, train_size, regularizer)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>The backward propagation features for the layer.</p>
@@ -189,6 +199,7 @@ class DropOut(Layer):
 <dt><strong><code>train_size</code></strong> :&ensp;<code>float</code></dt>
 <dd>Number of samples in our training set. Can be equal to batch size.</dd>
 </dl>
+<p>regularizer (object) : Instance of the regularizer class picked for the network.</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>output</code></strong> :&ensp;<code>array</code></dt>
@@ -196,13 +207,14 @@ class DropOut(Layer):
 </dl></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size):
+<pre><code class="python">def backward_pass(self, deriv_activation, learning_rate, train_size, regularizer):
     &#34;&#34;&#34; The backward propagation features for the layer.
 
     Args:
         deriv_activation (array): The Gradient of our loss function.
         learning_rate (float): The learning rate of the neural network.
         train_size (float): Number of samples in our training set. Can be equal to batch size.
+        regularizer (object) : Instance of the regularizer class picked for the network.
 
     Returns:
         output (array): Masked state of the deriv_activation for backward propagation.
@@ -211,6 +223,7 @@ class DropOut(Layer):
     self.output = deriv_activation
     self.output *= self.dropout
     self.output /= self.rate
+
     return self.output</code></pre>
 </details>
 </dd>
@@ -242,11 +255,14 @@ class DropOut(Layer):
     &#34;&#34;&#34;
 
     self.input = input_data
+
     self.dropout = np.random.rand(self.input.shape[0], self.input.shape[1])
     self.dropout = (self.dropout &lt; self.rate)
+
     self.output = self.input * self.dropout
     self.output /= self.rate
-    return self.output</code></pre>
+
+    return self.output, None</code></pre>
 </details>
 </dd>
 </dl>
