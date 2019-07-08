@@ -1,4 +1,5 @@
 """ Create a XOR dataset """
+
 import numpy as np
 
 
