@@ -1,4 +1,5 @@
 """ The Softmax Layer class. """
+
 import numpy as np
 from .fc_layer import FCLayer
 
