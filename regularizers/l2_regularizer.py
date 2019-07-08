@@ -1,4 +1,5 @@
 """ The L2 Regularization Class """
+
 import numpy as np
 from .regularizer import Regularizer
 

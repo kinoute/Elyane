@@ -1,4 +1,5 @@
 """ Full Connected Layer Class. """
+
 import numpy as np
 from .layer import Layer
 #from .optimizers import no_optim

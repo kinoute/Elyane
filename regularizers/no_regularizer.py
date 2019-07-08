@@ -1,4 +1,5 @@
 """ The No Regularizer Class when no regularizer is picked by the user """
+
 import numpy as np
 from .regularizer import Regularizer
 

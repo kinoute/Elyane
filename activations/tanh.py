@@ -1,4 +1,5 @@
 """ The TanH activation function """
+
 import numpy as np
 from .activation import Activation
 

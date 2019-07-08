@@ -1,4 +1,5 @@
 """ The Mean Absolute Error Loss Function """
+
 import numpy as np
 from .loss import Loss
 

@@ -1,4 +1,5 @@
 """ The Mean Squared Error Loss Function """
+
 import numpy as np
 from .loss import Loss
 

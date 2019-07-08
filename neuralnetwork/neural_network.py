@@ -1,4 +1,5 @@
 """ The Neural Network class. """
+
 import numpy as np
 
 

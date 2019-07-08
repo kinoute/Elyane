@@ -1,4 +1,5 @@
 """ The Multi-Class Cross-Entropy Loss Function """
+
 import numpy as np
 from .loss import Loss
 
@@ -25,7 +26,7 @@ class MultiClassCrossEntropy(Loss):
 
         Args:
             labels (array): The true labels of our dataset.
-            preds (array): The predictions made by our neural network
+            preds (array): The predictions made by our neural network.
 
         Returns:
             array: Returns the derivative loss according to A and Y.

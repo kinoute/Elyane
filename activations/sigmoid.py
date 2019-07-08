@@ -1,4 +1,5 @@
 """ The Sigmoid activation function """
+
 import numpy as np
 from .activation import Activation
 

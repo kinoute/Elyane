@@ -1,4 +1,5 @@
 """ The CrossEntropy Loss Function """
+
 import numpy as np
 from .loss import Loss
 
@@ -12,7 +13,7 @@ class CrossEntropy(Loss):
 
         Args:
             labels (array): The true labels of our dataset.
-            preds (array): The predictions made by our neural networ.
+            preds (array): The predictions made by our neural network.
 
         Returns:
             array: Returns the loss according to A and Y.
@@ -25,7 +26,7 @@ class CrossEntropy(Loss):
 
         Args:
             labels (array): The true labels of our dataset.
-            preds (array): The predictions made by our neural network
+            preds (array): The predictions made by our neural network.
 
         Returns:
             array: Returns the derivative loss according to A and Y.

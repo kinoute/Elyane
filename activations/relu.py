@@ -1,6 +1,7 @@
 """ The Relu activation function """
-from .activation import Activation
+
 import numpy as np
+from .activation import Activation
 
 
 class Relu(Activation):
